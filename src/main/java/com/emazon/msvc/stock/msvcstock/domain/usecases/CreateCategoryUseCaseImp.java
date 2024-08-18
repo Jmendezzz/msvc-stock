@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.domain.ports.usecases;
+package com.emazon.msvc.stock.msvcstock.domain.usecases;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.DuplicateCategoryNameException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
