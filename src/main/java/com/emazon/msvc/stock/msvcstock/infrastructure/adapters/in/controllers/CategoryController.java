@@ -2,6 +2,8 @@ package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryService;
 import com.emazon.msvc.stock.msvcstock.domain.enums.SortDirection;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
@@ -22,17 +24,10 @@ public class CategoryController {
 
   @GetMapping
   public ResponseEntity<Paginated<CategoryDto>> retrieveCategories(
-          @RequestParam(defaultValue = "0") int page,
-          @RequestParam(defaultValue = "20") int size,
-          @RequestParam(defaultValue = "name") String sortBy,
-          @RequestParam(defaultValue = "asc") String direction) {
+          @Valid @ModelAttribute PaginationDto pagination,
+          @Valid @ModelAttribute SortingDto sorting
+          ) {
 
-    SortDirection sortDirection = Sort.Direction.fromString(direction).equals(Sort.Direction.ASC)
-            ? SortDirection.ASC
-            : SortDirection.DESC;
-
-    Sorting sorting = new Sorting(sortBy, sortDirection);
-    Pagination pagination = new Pagination(page, size);
     Paginated<CategoryDto> paginatedCategories = categoryService.retrieveCategories(pagination, sorting);
 
     return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);

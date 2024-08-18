@@ -2,14 +2,16 @@ package com.emazon.msvc.stock.msvcstock.application.services;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.CategoryMapper;
+import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
+import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
 import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryService;
-import com.emazon.msvc.stock.msvcstock.application.sorting.CategorySortingStrategy;
-import com.emazon.msvc.stock.msvcstock.application.sorting.SortingStrategy;
+import com.emazon.msvc.stock.msvcstock.application.validations.CategorySortingValidation;
+import com.emazon.msvc.stock.msvcstock.application.validations.SortingValidation;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
-import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
-import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.RetrieveCategoryUseCase;
 import lombok.AllArgsConstructor;
@@ -21,7 +23,9 @@ public class CategoryServiceImp implements CategoryService {
   private final CreateCategoryUseCase createCategoryUseCase;
   private final RetrieveCategoryUseCase retrieveCategoriesUseCase;
   private final CategoryMapper mapper;
-  private final SortingStrategy sortingStrategy = new CategorySortingStrategy();
+  private final PaginationMapper paginationMapper;
+  private final SortingMapper sortingMapper;
+  private final SortingValidation sortingStrategy = new CategorySortingValidation();
 
   @Override
   public CategoryDto create(CreateCategoryDto categoryDto) {
@@ -31,14 +35,15 @@ public class CategoryServiceImp implements CategoryService {
   }
 
   @Override
-  public Paginated<CategoryDto> retrieveCategories(Pagination pagination, Sorting sort) {
-    if(!sortingStrategy.isValidSortBy(sort.getField())) {
+  public Paginated<CategoryDto> retrieveCategories(PaginationDto pagination, SortingDto sort) {
+    if(!sortingStrategy.isValidSortBy(sort.sortBy())) {
       throw new IllegalArgumentException("Invalid sort field");
     }
-    if(!sortingStrategy.isValidDirection(sort.getDirection().name())) {
-      throw new IllegalArgumentException("Invalid sort direction");
-    }
-    Paginated<Category> categories = retrieveCategoriesUseCase.retrieveCategories(pagination, sort);
+    Paginated<Category> categories = retrieveCategoriesUseCase
+            .retrieveCategories(
+                    paginationMapper.toDomain(pagination),
+                    sortingMapper.toDomain(sort)
+            );
 
     return mapper.toDtoPaginated(categories);
   }
