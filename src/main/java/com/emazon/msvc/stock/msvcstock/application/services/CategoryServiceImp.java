@@ -8,8 +8,6 @@ import com.emazon.msvc.stock.msvcstock.application.mappers.CategoryMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
 import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryService;
-import com.emazon.msvc.stock.msvcstock.domain.validations.imp.CategorySortingValidation;
-import com.emazon.msvc.stock.msvcstock.domain.validations.SortingValidation;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateCategoryUseCase;
@@ -25,7 +23,6 @@ public class CategoryServiceImp implements CategoryService {
   private final CategoryMapper mapper;
   private final PaginationMapper paginationMapper;
   private final SortingMapper sortingMapper;
-  private final SortingValidation sortingStrategy = new CategorySortingValidation();
 
   @Override
   public CategoryDto create(CreateCategoryDto categoryDto) {
