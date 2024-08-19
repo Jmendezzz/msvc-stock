@@ -4,7 +4,7 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.DuplicateCateg
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
-import com.emazon.msvc.stock.msvcstock.domain.ports.usecases.CreateCategoryUseCaseImp;
+import com.emazon.msvc.stock.msvcstock.domain.usecases.CreateCategoryUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

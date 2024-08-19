@@ -1,6 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.handler;
 
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.DuplicateCategoryNameException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.BusinessException;
 import com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +28,8 @@ public class GlobalExceptionHandler {
             .badRequest()
             .body(errors);
   }
-
-
-  @ExceptionHandler(DuplicateCategoryNameException.class)
-  public ResponseEntity<ExceptionResponse> handleDuplicateCategoryNameException(DuplicateCategoryNameException ex) {
+  @ExceptionHandler(BusinessException.class)
+  public ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException ex) {
     ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(),ex.getCode(),HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
