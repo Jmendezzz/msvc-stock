@@ -5,13 +5,9 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryD
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryService;
-import com.emazon.msvc.stock.msvcstock.domain.enums.SortDirection;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
-import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
-import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
