@@ -4,7 +4,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
-import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryService;
+import com.emazon.msvc.stock.msvcstock.application.services.CategoryService;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class CategoryController {
     return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
   }
   @PostMapping("/create")
-  public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CreateCategoryDto createCategoryDto) {
+  public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto) {
     return new ResponseEntity<>(
             categoryService.create(createCategoryDto),
             HttpStatus.CREATED

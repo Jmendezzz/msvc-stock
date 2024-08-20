@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface SortingMapper {
 
-  @Mapping(source = "sortBy", target = "field")
   @Mapping(source = "direction", target = "direction")
   Sorting toDomain(SortingDto sortingDto);
 }

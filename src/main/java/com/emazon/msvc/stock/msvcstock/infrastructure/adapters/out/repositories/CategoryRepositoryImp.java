@@ -39,8 +39,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
     Pageable pageable = PageRequest.of(
             pagination.getPage(),
             pagination.getSize(),
-            Sort.by(                Sort.Direction.fromString(sort.getDirection().name()) // Correctly convert direction string to enum
-                    ,sort.getField())
+            Sort.by(Sort.Direction.fromString(sort.getDirection().name()), sort.getSortBy())
     );
 
     Page<CategoryEntity> page = jpaRepository.findAll(pageable);

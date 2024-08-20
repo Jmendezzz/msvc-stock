@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.application.services.imp;
+package com.emazon.msvc.stock.msvcstock.application.services;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
