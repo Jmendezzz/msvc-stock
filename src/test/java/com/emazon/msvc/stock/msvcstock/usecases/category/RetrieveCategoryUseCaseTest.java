@@ -9,7 +9,6 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.RetrieveCategoryUseCaseImp;
-import com.emazon.msvc.stock.msvcstock.domain.validations.imp.CategorySortingValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +20,6 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
