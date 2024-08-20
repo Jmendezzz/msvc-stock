@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.usecases;
+package com.emazon.msvc.stock.msvcstock.usecases.category;
 
 import com.emazon.msvc.stock.msvcstock.domain.enums.SortDirection;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.sorting.InvalidSortByFieldException;
@@ -8,7 +8,7 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
-import com.emazon.msvc.stock.msvcstock.domain.usecases.RetrieveCategoryUseCaseImp;
+import com.emazon.msvc.stock.msvcstock.domain.usecases.category.RetrieveCategoryUseCaseImp;
 import com.emazon.msvc.stock.msvcstock.domain.validations.imp.CategorySortingValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
