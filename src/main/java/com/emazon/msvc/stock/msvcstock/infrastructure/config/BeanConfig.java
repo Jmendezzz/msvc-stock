@@ -8,7 +8,6 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRep
 import com.emazon.msvc.stock.msvcstock.domain.usecases.brand.CreateBrandUseCaseImp;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.CreateCategoryUseCaseImp;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.RetrieveCategoryUseCaseImp;
-import com.emazon.msvc.stock.msvcstock.domain.validations.imp.CategorySortingValidation;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ public class BeanConfig {
 
   @Bean
   public RetrieveCategoryUseCase retrieveCategoryUseCase() {
-    return new RetrieveCategoryUseCaseImp(categoryRepository, new CategorySortingValidation());
+    return new RetrieveCategoryUseCaseImp(categoryRepository);
   }
 
   @Bean

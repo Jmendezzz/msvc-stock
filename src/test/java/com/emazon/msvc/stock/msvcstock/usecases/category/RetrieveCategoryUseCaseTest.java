@@ -31,12 +31,9 @@ class RetrieveCategoryUseCaseTest {
   @Mock
   private CategoryRepository categoryRepository;
 
-  @Mock
-  private CategorySortingValidation categorySortingValidation;
-
   @BeforeEach
   public void setUp() {
-    retrieveCategoryUseCase = new RetrieveCategoryUseCaseImp(categoryRepository,categorySortingValidation );
+    retrieveCategoryUseCase = new RetrieveCategoryUseCaseImp(categoryRepository);
   }
 
   @Test
@@ -72,8 +69,6 @@ class RetrieveCategoryUseCaseTest {
   void invalidSortingByFieldTest() {
     Pagination pagination = new Pagination(0, 10);
     Sorting sorting = new Sorting("invalidField", SortDirection.ASC);
-
-    doThrow(InvalidSortByFieldException.class).when(categorySortingValidation).isValidSortBy(sorting.getField());
 
     assertThrows(InvalidSortByFieldException.class, () -> retrieveCategoryUseCase.retrieveCategories(pagination, sorting));
   }

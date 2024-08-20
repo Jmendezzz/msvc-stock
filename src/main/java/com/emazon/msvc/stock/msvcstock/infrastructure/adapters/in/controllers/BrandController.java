@@ -3,7 +3,6 @@ package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
 import com.emazon.msvc.stock.msvcstock.application.services.BrandService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,7 @@ public class BrandController {
   private final BrandService brandService;
 
   @PostMapping("/create")
-  public ResponseEntity<BrandDto> createBrand(@Valid @RequestBody CreateBrandDto createBrandDto) {
+  public ResponseEntity<BrandDto> createBrand(@RequestBody CreateBrandDto createBrandDto) {
     return ResponseEntity.ok(brandService.createBrand(createBrandDto));
   }
 }

@@ -29,7 +29,7 @@ public class CategoryController {
     return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
   }
   @PostMapping("/create")
-  public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CreateCategoryDto createCategoryDto) {
+  public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto) {
     return new ResponseEntity<>(
             categoryService.create(createCategoryDto),
             HttpStatus.CREATED
