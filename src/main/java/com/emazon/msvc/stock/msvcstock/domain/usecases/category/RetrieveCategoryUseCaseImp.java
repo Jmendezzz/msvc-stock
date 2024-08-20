@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.domain.usecases;
+package com.emazon.msvc.stock.msvcstock.domain.usecases.category;
 
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
