@@ -1,9 +1,9 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.enums.SortDirection;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.sorting.SortingExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
-import lombok.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,22 +13,22 @@ public class Sorting {
     private String sortBy;
     private SortDirection direction;
 
-    public Sorting(String sortBy, SortDirection direction) {
+    public Sorting(String sortBy, String direction) {
         validate(sortBy, direction);
         this.sortBy = sortBy;
-        this.direction = direction;
+        this.direction = SortDirection.valueOf(direction);
     }
 
-    private void validate(String field, SortDirection direction){
+    private void validate(String field, String direction){
         Map<String, String> errors = new HashMap<>();
         if(InputValidation.isNullOrEmpty(field)){
             errors.put("field", SortingExceptionCode.EMPTY_SORT_BY.getMessage());
         }
-        if(!SortDirection.contains(direction.toString())){
+        if(!SortDirection.contains(direction)){
             errors.put("direction", SortingExceptionCode.INVALID_SORT_DIRECTION.getMessage());
         }
         if(!errors.isEmpty()){
-            throw new IllegalArgumentException(errors.toString());
+            throw new InvalidInputsException(errors);
         }
     }
     public String getSortBy() {

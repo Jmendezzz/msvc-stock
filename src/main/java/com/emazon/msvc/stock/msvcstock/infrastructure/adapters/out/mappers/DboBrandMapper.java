@@ -7,14 +7,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface DboBrandMapper {
   Brand toDomain(BrandEntity brandEntity);
+  List<Brand> toDomain(List<BrandEntity> brandEntities);
   BrandEntity toEntity(Brand brand);
 
   @Mapping(target = "data", expression = "java(toDomain((page.getContent())))")
   @Mapping(target = "currentPage", expression = "java((long) page.getNumber())")
   @Mapping(target = "totalItems", expression = "java(page.getTotalElements())")
   @Mapping(target = "totalPages", expression = "java((long) page.getTotalPages())")
-  Paginated<Brand> toDomainPaginated(Page<BrandEntity> brandEntityPagination);
+  Paginated<Brand> toDomainPaginated(Page<BrandEntity> page);
 }
