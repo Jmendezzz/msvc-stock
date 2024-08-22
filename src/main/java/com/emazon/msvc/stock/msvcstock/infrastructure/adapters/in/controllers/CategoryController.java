@@ -17,23 +17,22 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class CategoryController {
   private final CategoryService categoryService;
-
-  @GetMapping
-  public ResponseEntity<Paginated<CategoryDto>> retrieveCategories(
-          @Valid @ModelAttribute PaginationDto pagination,
-          @Valid @ModelAttribute SortingDto sorting
-          ) {
-
-    Paginated<CategoryDto> paginatedCategories = categoryService.retrieveCategories(pagination, sorting);
-
-    return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
-  }
   @PostMapping("/create")
   public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto) {
     return new ResponseEntity<>(
             categoryService.create(createCategoryDto),
             HttpStatus.CREATED
     );
+  }
+  @GetMapping
+  public ResponseEntity<Paginated<CategoryDto>> retrieveCategories(
+          @Valid @ModelAttribute PaginationDto pagination,
+          @Valid @ModelAttribute SortingDto sorting
+  ) {
+
+    Paginated<CategoryDto> paginatedCategories = categoryService.retrieveCategories(pagination, sorting);
+
+    return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
   }
 
 }
