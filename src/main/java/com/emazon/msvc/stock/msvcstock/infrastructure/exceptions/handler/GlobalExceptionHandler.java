@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
     Map<String, String> errors = new HashMap<>();
 
@@ -31,6 +33,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(InvalidInputsException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<Map<String,String>> handleInvalidInputsException(InvalidInputsException ex) {
     Map<String, String> errors = ex.getErrors();
     return ResponseEntity
@@ -38,6 +41,7 @@ public class GlobalExceptionHandler {
             .body(errors);
   }
   @ExceptionHandler(BusinessException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException ex) {
     ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(),ex.getCode(),HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

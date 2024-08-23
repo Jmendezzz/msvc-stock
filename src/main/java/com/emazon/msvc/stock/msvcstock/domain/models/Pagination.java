@@ -11,8 +11,8 @@ import java.util.Map;
 
 
 public class Pagination {
-    private int page;
-    private int size;
+    private Integer page;
+    private Integer size;
 
 
     public Pagination(int page, int size) {
