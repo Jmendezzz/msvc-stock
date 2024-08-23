@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 @AllArgsConstructor
@@ -45,6 +46,11 @@ public class CategoryRepositoryImp implements CategoryRepository {
     Page<CategoryEntity> page = jpaRepository.findAll(pageable);
 
     return mapper.toDomainPaginated(page);
+  }
+
+  @Override
+  public Set<Category> findAllById(Set<Long> ids) {
+    return mapper.toDomainSet(jpaRepository.findAllById(ids));
   }
 
 }

@@ -6,9 +6,11 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface CategoryRepository {
   Category save(Category category);
   Optional<Category> findByName(String name);
   Paginated<Category> findAll(Pagination pagination, Sorting sort);
+  Set<Category> findAllById(Set<Long> ids);
 }
