@@ -8,11 +8,13 @@ import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface DboCategoryMapper {
   Category toDomain(CategoryEntity categoryEntity);
   List<Category> toDomain(List<CategoryEntity> categoryEntities);
+  Set<Category> toDomainSet(List<CategoryEntity> categoryEntities);
   CategoryEntity toEntity(Category category);
 
   @Mapping(target = "data", expression = "java(toDomain((page.getContent())))")
