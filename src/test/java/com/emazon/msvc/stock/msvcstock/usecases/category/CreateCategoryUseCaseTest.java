@@ -3,7 +3,7 @@ package com.emazon.msvc.stock.msvcstock.usecases.category;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.DuplicateCategoryNameException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateCategoryUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.CreateCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.CreateCategoryUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;

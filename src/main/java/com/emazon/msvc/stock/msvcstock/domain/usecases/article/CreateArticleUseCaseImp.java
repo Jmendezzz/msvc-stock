@@ -1,39 +1,50 @@
 package com.emazon.msvc.stock.msvcstock.domain.usecases.article;
 
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.InvalidCategoryArticleException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleBrandNotFoundException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleCategoryNotFoundException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Article;
+import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateArticleUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.CreateArticleUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.RetrieveBrandUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.ArticleRepository;
-import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CreateArticleUseCaseImp implements CreateArticleUseCase {
   private final ArticleRepository articleRepository;
-  private final CategoryRepository categoryRepository;
-  public CreateArticleUseCaseImp(ArticleRepository articleRepository, CategoryRepository categoryRepository) {
+  private final RetrieveCategoryUseCase retrieveCategoryUseCase;
+  private final RetrieveBrandUseCase retrieveBrandUseCase;
+  public CreateArticleUseCaseImp(ArticleRepository articleRepository, RetrieveCategoryUseCase retrieveCategoryUseCase, RetrieveBrandUseCase retrieveBrandUseCase) {
     this.articleRepository = articleRepository;
-    this.categoryRepository = categoryRepository;
+    this.retrieveCategoryUseCase = retrieveCategoryUseCase;
+    this.retrieveBrandUseCase = retrieveBrandUseCase;
   }
   @Override
   public Article create(Article article) {
-    Set<Long> categoryIds = getCategoryIds(article);
-    Set<Category> categories = categoryRepository.findAllById(categoryIds);
+    Set<Category> categories = validateExistingCategories(article.getCategories());
+    Brand brand = validateExistingBrand(article.getBrand());
 
-    if(categories.size() != categoryIds.size()) throw new InvalidCategoryArticleException();
-
+    article.setBrand(brand);
     article.setCategories(categories);
 
     return articleRepository.save(article);
   }
 
-  private Set<Long> getCategoryIds(Article article) {
-    return article.getCategories()
-            .stream()
-            .map(Category::getId)
-            .collect(Collectors.toSet());
+  private Set<Category> validateExistingCategories(Set<Category> categories) {
+    Set<Long> categoryIds = categories.stream().map(Category::getId).collect(Collectors.toSet());
+    Set<Category> existingCategories = retrieveCategoryUseCase.retrieveCategoriesByIds(categoryIds);
+
+    if(existingCategories.size() != categoryIds.size()) throw new ArticleCategoryNotFoundException();
+
+    return existingCategories;
   }
 
+  private Brand validateExistingBrand(Brand brand) {
+    return retrieveBrandUseCase
+            .retrieveBrandById(brand.getId())
+            .orElseThrow(ArticleBrandNotFoundException::new);
+  }
 }

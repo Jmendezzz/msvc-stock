@@ -44,4 +44,9 @@ public class BrandRepositoryImp implements BrandRepository {
     Page<BrandEntity> page = jpaRepository.findAll(pageable);
     return mapper.toDomainPaginated(page);
   }
+
+  @Override
+  public Optional<Brand> findById(Long id) {
+    return jpaRepository.findById(id).map(mapper::toDomain);
+  }
 }

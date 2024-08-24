@@ -10,8 +10,8 @@ import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
 import com.emazon.msvc.stock.msvcstock.application.services.CategoryService;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateCategoryUseCase;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.RetrieveCategoryUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.CreateCategoryUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.RetrieveCategoryUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
