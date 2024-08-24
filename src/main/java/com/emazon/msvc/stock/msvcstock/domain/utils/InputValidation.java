@@ -6,6 +6,10 @@ public class InputValidation {
     return input == null || input.isEmpty() || input.isBlank();
   }
 
+  public static boolean isNull(Object input) {
+    return input == null;
+  }
+
   public static boolean isInvalidLength(String input, int min, int max) {
     return input.length() < min || input.length() > max;
   }

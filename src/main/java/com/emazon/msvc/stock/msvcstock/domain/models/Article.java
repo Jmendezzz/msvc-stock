@@ -12,15 +12,19 @@ public class Article {
   private Long id;
   private String name;
   private String description;
+  private Double price;
+  private Integer stock;
   private Brand brand;
   private Set<Category> categories;
 
 
-  public Article(Long id, String name, String description, Brand brand, Set<Category> categories) {
+  public Article(Long id, String name, String description, Double price, Integer stock, Brand brand, Set<Category> categories) {
     validate(name, description, brand, categories);
     this.id = id;
     this.name = name;
     this.description = description;
+    this.price = price;
+    this.stock = stock;
     this.brand = brand;
     this.categories = categories;
   }
@@ -40,17 +44,28 @@ public class Article {
       errors.put("description", ArticleExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage());
     }
 
-    if (brand == null || InputValidation.isNullOrEmpty(brand.getName())) {
+    if(InputValidation.isNull(price)){
+      errors.put("price", ArticleExceptionCode.EMPTY_PRICE.getMessage());
+    }else if(price <= 0){
+      errors.put("price", ArticleExceptionCode.INVALID_PRICE.getMessage());
+    }
+
+    if(InputValidation.isNull(stock)){
+      errors.put("stock", ArticleExceptionCode.EMPTY_STOCK.getMessage());
+    }else if(stock < 0){
+      errors.put("stock", ArticleExceptionCode.INVALID_STOCK.getMessage());
+    }
+
+    if (InputValidation.isNull(brand) || InputValidation.isNullOrEmpty(brand.getName())) {
       errors.put("brand", ArticleExceptionCode.EMPTY_BRAND.getMessage());
     }
 
-    if(categories == null || categories.isEmpty()){
+    if(InputValidation.isNull(categories) || categories.isEmpty()){
       errors.put("categories", ArticleExceptionCode.EMPTY_CATEGORIES.getMessage());
-    }
-
-    if(categories.size() > 3){
+    }else if(categories.size() > 3){
       errors.put("categories", ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getMessage());
     }
+
     if(!errors.isEmpty()){
       throw new InvalidInputsException(errors);
     }
@@ -95,5 +110,12 @@ public class Article {
 
   public void setCategories(Set<Category> categories) {
     this.categories = categories;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+  public void setPrice(Double price) {
+    this.price = price;
   }
 }

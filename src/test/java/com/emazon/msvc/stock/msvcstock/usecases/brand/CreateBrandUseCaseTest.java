@@ -2,7 +2,7 @@ package com.emazon.msvc.stock.msvcstock.usecases.brand;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.brand.DuplicateBrandNameException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateBrandUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.CreateBrandUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.BrandRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.brand.CreateBrandUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;

@@ -5,7 +5,7 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.RetrieveCategoryUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.RetrieveCategoryUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;
