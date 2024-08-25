@@ -1,6 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
@@ -19,59 +19,15 @@ public class Article {
 
 
   public Article(Long id, String name, String description, Double price, Integer stock, Brand brand, Set<Category> categories) {
-    validate(name, description, brand, categories);
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.stock = stock;
-    this.brand = brand;
-    this.categories = categories;
+    setId(id);
+    setName(name);
+    setDescription(description);
+    setPrice(price);
+    setStock(stock);
+    setBrand(brand);
+    setCategories(categories);
   }
-
-  private void validate(String name, String description, Brand brand, Set<Category> categories) {
-    Map<String, String> errors = new HashMap<>();
-
-    if (InputValidation.isNullOrEmpty(name)) {
-      errors.put("name", ArticleExceptionCode.EMPTY_NAME.getMessage());
-    } else if (InputValidation.isInvalidLength(name, 3, 50)) {
-      errors.put("name", ArticleExceptionCode.INVALID_NAME_LENGTH.getMessage());
-    }
-
-    if (InputValidation.isNullOrEmpty(description)) {
-      errors.put("description", ArticleExceptionCode.EMPTY_DESCRIPTION.getMessage());
-    } else if (InputValidation.isInvalidLength(description, 10, 255)) {
-      errors.put("description", ArticleExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage());
-    }
-
-    if(InputValidation.isNull(price)){
-      errors.put("price", ArticleExceptionCode.EMPTY_PRICE.getMessage());
-    }else if(price <= 0){
-      errors.put("price", ArticleExceptionCode.INVALID_PRICE.getMessage());
-    }
-
-    if(InputValidation.isNull(stock)){
-      errors.put("stock", ArticleExceptionCode.EMPTY_STOCK.getMessage());
-    }else if(stock < 0){
-      errors.put("stock", ArticleExceptionCode.INVALID_STOCK.getMessage());
-    }
-
-    if (InputValidation.isNull(brand) || InputValidation.isNullOrEmpty(brand.getName())) {
-      errors.put("brand", ArticleExceptionCode.EMPTY_BRAND.getMessage());
-    }
-
-    if(InputValidation.isNull(categories) || categories.isEmpty()){
-      errors.put("categories", ArticleExceptionCode.EMPTY_CATEGORIES.getMessage());
-    }else if(categories.size() > 3){
-      errors.put("categories", ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getMessage());
-    }
-
-    if(!errors.isEmpty()){
-      throw new InvalidInputsException(errors);
-    }
-
-  }
-
+  public Article(){}
   public Long getId() {
     return id;
   }
@@ -85,6 +41,12 @@ public class Article {
   }
 
   public void setName(String name) {
+    if(InputValidation.isNullOrEmpty(name)){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_NAME.getMessage(), ArticleExceptionCode.EMPTY_NAME.getCode());
+    }
+    if(InputValidation.isInvalidLength(name, 3, 50)){
+      throw new InvalidInputException(ArticleExceptionCode.INVALID_NAME_LENGTH.getMessage(), ArticleExceptionCode.INVALID_NAME_LENGTH.getCode());
+    }
     this.name = name;
   }
 
@@ -93,6 +55,12 @@ public class Article {
   }
 
   public void setDescription(String description) {
+    if(InputValidation.isNullOrEmpty(description)){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_DESCRIPTION.getMessage(), ArticleExceptionCode.EMPTY_DESCRIPTION.getCode());
+    }
+    if(InputValidation.isInvalidLength(description, 10, 255)){
+      throw new InvalidInputException(ArticleExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage(), ArticleExceptionCode.INVALID_DESCRIPTION_LENGTH.getCode());
+    }
     this.description = description;
   }
 
@@ -101,6 +69,9 @@ public class Article {
   }
 
   public void setBrand(Brand brand) {
+    if(InputValidation.isNull(brand) || InputValidation.isNullOrEmpty(brand.getName())){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_BRAND.getMessage(), ArticleExceptionCode.EMPTY_BRAND.getCode());
+    }
     this.brand = brand;
   }
 
@@ -109,6 +80,12 @@ public class Article {
   }
 
   public void setCategories(Set<Category> categories) {
+    if(InputValidation.isNull(categories) || categories.isEmpty()){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_CATEGORIES.getMessage(), ArticleExceptionCode.EMPTY_CATEGORIES.getCode());
+    }
+    if(categories.size() > 3){
+      throw new InvalidInputException(ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getMessage(), ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getCode());
+    }
     this.categories = categories;
   }
 
@@ -116,6 +93,26 @@ public class Article {
     return price;
   }
   public void setPrice(Double price) {
+    if(InputValidation.isNull(price)){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_PRICE.getMessage(), ArticleExceptionCode.EMPTY_PRICE.getCode());
+    }
+    if(price <= 0){
+      throw new InvalidInputException(ArticleExceptionCode.INVALID_PRICE.getMessage(), ArticleExceptionCode.INVALID_PRICE.getCode());
+    }
     this.price = price;
+  }
+
+  public Integer getStock() {
+    return stock;
+  }
+
+  public void setStock(Integer stock) {
+    if(InputValidation.isNull(stock)){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_STOCK.getMessage(), ArticleExceptionCode.EMPTY_STOCK.getCode());
+    }
+    if(stock < 0){
+      throw new InvalidInputException(ArticleExceptionCode.INVALID_STOCK.getMessage(), ArticleExceptionCode.INVALID_STOCK.getCode());
+    }
+    this.stock = stock;
   }
 }
