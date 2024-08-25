@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.handler;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.BusinessException;
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +32,7 @@ public class GlobalExceptionHandler {
             .body(errors);
   }
 
-  @ExceptionHandler(InvalidInputsException.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<Map<String,String>> handleInvalidInputsException(InvalidInputsException ex) {
-    Map<String, String> errors = ex.getErrors();
-    return ResponseEntity
-            .badRequest()
-            .body(errors);
-  }
+
   @ExceptionHandler(BusinessException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException ex) {
