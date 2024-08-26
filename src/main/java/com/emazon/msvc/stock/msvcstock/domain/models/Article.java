@@ -4,8 +4,6 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class Article {
@@ -17,7 +15,6 @@ public class Article {
   private Brand brand;
   private Set<Category> categories;
 
-
   public Article(Long id, String name, String description, Double price, Integer stock, Brand brand, Set<Category> categories) {
     setId(id);
     setName(name);
@@ -27,7 +24,9 @@ public class Article {
     setBrand(brand);
     setCategories(categories);
   }
-  public Article(){}
+  public Article(){
+
+  }
   public Long getId() {
     return id;
   }
@@ -69,7 +68,7 @@ public class Article {
   }
 
   public void setBrand(Brand brand) {
-    if(InputValidation.isNull(brand) || InputValidation.isNullOrEmpty(brand.getName())){
+    if(InputValidation.isNull(brand)){
       throw new InvalidInputException(ArticleExceptionCode.EMPTY_BRAND.getMessage(), ArticleExceptionCode.EMPTY_BRAND.getCode());
     }
     this.brand = brand;

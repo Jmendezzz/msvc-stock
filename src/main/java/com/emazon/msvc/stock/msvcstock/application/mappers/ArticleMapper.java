@@ -1,5 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.application.mappers;
 
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
 import com.emazon.msvc.stock.msvcstock.domain.models.Article;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
@@ -29,4 +30,6 @@ public interface ArticleMapper {
       return category;
     }).collect(Collectors.toSet());
   }
+
+  ArticleDto toDto(Article article);
 }

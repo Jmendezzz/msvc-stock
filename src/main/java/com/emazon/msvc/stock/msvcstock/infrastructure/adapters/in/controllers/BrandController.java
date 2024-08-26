@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,10 @@ public class BrandController {
           }
   )
   public ResponseEntity<BrandDto> createBrand(@RequestBody CreateBrandDto createBrandDto) {
-    return ResponseEntity.ok(brandService.createBrand(createBrandDto));
+    return new ResponseEntity<>(
+            brandService.createBrand(createBrandDto),
+            HttpStatus.CREATED
+    );
   }
 
   @Operation(
