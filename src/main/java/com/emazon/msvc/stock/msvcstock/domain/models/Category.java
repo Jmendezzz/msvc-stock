@@ -1,13 +1,10 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.CategoryExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class Category {
   private Long id;
@@ -17,32 +14,12 @@ public class Category {
 
 
   public Category(Long id, String name, String description, LocalDateTime createdAt) {
-    validate(name, description);
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.createdAt = createdAt;
+    setId(id);
+    setName(name);
+    setDescription(description);
+    setCreatedAt(createdAt);
   }
-
-  private void validate(String name, String description) {
-    Map<String, String> errors = new HashMap<>();
-
-    if (InputValidation.isNullOrEmpty(name)) {
-      errors.put("name", CategoryExceptionCode.EMPTY_NAME.getMessage());
-    } else if (InputValidation.isInvalidLength(name, 3, 50)) {
-      errors.put("name", CategoryExceptionCode.INVALID_NAME_LENGTH.getMessage());
-    }
-
-    if (InputValidation.isNullOrEmpty(description)) {
-      errors.put("description", CategoryExceptionCode.EMPTY_DESCRIPTION.getMessage());
-    } else if (InputValidation.isInvalidLength(description, 3, 120)) {
-      errors.put("description", CategoryExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage());
-    }
-
-    if (!errors.isEmpty()) {
-      throw new InvalidInputsException(errors);
-    }
-  }
+  public Category(){}
 
   public Long getId() {
     return id;
@@ -57,6 +34,12 @@ public class Category {
   }
 
   public void setName(String name) {
+    if(InputValidation.isNullOrEmpty(name)){
+      throw new InvalidInputException(CategoryExceptionCode.EMPTY_NAME.getMessage(),CategoryExceptionCode.EMPTY_NAME.getCode());
+    }
+    if(InputValidation.isInvalidLength(name,3,50)){
+      throw new InvalidInputException(CategoryExceptionCode.INVALID_NAME_LENGTH.getMessage(),CategoryExceptionCode.INVALID_NAME_LENGTH.getCode());
+    }
     this.name = name;
   }
 
@@ -65,6 +48,12 @@ public class Category {
   }
 
   public void setDescription(String description) {
+    if(InputValidation.isNullOrEmpty(description)){
+      throw new InvalidInputException(CategoryExceptionCode.EMPTY_DESCRIPTION.getMessage(),CategoryExceptionCode.EMPTY_DESCRIPTION.getCode());
+    }
+    if(InputValidation.isInvalidLength(description,3,120)){
+      throw new InvalidInputException(CategoryExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage(),CategoryExceptionCode.INVALID_DESCRIPTION_LENGTH.getCode());
+    }
     this.description = description;
   }
 

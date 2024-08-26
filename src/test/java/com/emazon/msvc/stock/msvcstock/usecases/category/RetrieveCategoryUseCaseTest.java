@@ -5,7 +5,7 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.RetrieveCategoryUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.RetrieveCategoryUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,6 +69,18 @@ class RetrieveCategoryUseCaseTest {
     Sorting sorting = new Sorting("invalidField", "ASC");
 
     assertThrows(InvalidSortByFieldException.class, () -> retrieveCategoryUseCase.retrieveCategories(pagination, sorting));
+  }
+
+  @Test
+  void getCategoriesByIdsTest() {
+    Category category = new Category(1L, "categoryName", "categoryDescription", LocalDateTime.now());
+    Set<Category> expectedResult = Collections.singleton(category);
+    Set<Long> ids = Set.of(1L);
+    when(retrieveCategoryUseCase.retrieveCategoriesByIds(ids)).thenReturn(expectedResult);
+
+    Set<Category> actualResult = retrieveCategoryUseCase.retrieveCategoriesByIds(ids);
+
+    assertEquals(expectedResult, actualResult);
   }
 
 }

@@ -1,6 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.brand.BrandExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
@@ -13,30 +13,13 @@ public class Brand {
   private String description;
 
   public Brand(Long id, String name, String description) {
-    validate(name, description);
-    this.id = id;
-    this.name = name;
-    this.description = description;
+    setId(id);
+    setName(name);
+    setDescription(description);
   }
 
-  private void validate(String name, String description){
-    Map<String, String> errors = new HashMap<>();
+  public Brand(){
 
-    if (InputValidation.isNullOrEmpty(name)) {
-      errors.put("name", BrandExceptionCode.EMPTY_NAME.getMessage());
-    } else if (InputValidation.isInvalidLength(name, 3, 50)) {
-      errors.put("name", BrandExceptionCode.INVALID_NAME_LENGTH.getMessage());
-    }
-
-    if (InputValidation.isNullOrEmpty(description)) {
-      errors.put("description", BrandExceptionCode.EMPTY_DESCRIPTION.getMessage());
-    } else if (InputValidation.isInvalidLength(description, 3, 120)) {
-      errors.put("description", BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage());
-    }
-
-    if (!errors.isEmpty()) {
-      throw new InvalidInputsException(errors);
-    }
   }
 
   public Long getId() {
@@ -52,6 +35,12 @@ public class Brand {
   }
 
   public void setName(String name) {
+    if (InputValidation.isNullOrEmpty(name)) {
+      throw new InvalidInputException(BrandExceptionCode.EMPTY_NAME.getMessage(), BrandExceptionCode.EMPTY_NAME.getCode());
+    }
+    if (InputValidation.isInvalidLength(name, 3, 50)) {
+      throw new InvalidInputException(BrandExceptionCode.INVALID_NAME_LENGTH.getMessage(), BrandExceptionCode.INVALID_NAME_LENGTH.getCode());
+    }
     this.name = name;
   }
 
@@ -60,6 +49,12 @@ public class Brand {
   }
 
   public void setDescription(String description) {
+    if (InputValidation.isNullOrEmpty(description)) {
+      throw new InvalidInputException(BrandExceptionCode.EMPTY_DESCRIPTION.getMessage(), BrandExceptionCode.EMPTY_DESCRIPTION.getCode());
+    }
+    if (InputValidation.isInvalidLength(description, 10, 120)) {
+      throw new InvalidInputException(BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage(), BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getCode());
+    }
     this.description = description;
   }
 }

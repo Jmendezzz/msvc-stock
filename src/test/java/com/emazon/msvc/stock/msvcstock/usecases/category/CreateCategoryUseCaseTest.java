@@ -1,9 +1,9 @@
 package com.emazon.msvc.stock.msvcstock.usecases.category;
 
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.DuplicateCategoryNameException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
-import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.CreateCategoryUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.CreateCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.CreateCategoryUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,21 +33,21 @@ class CreateCategoryUseCaseTest {
 
   @Test
   void createCategoryWithEmptyNameTest() {
-    assertThrows(InvalidInputsException.class, () ->  new Category(1L, "", "categoryDescription", LocalDateTime.now()));
+    assertThrows(InvalidInputException.class, () ->  new Category(1L, "", "categoryDescription", LocalDateTime.now()));
   }
   @Test
   void createCategoryWithInvalidNameLengthTest() {
-    assertThrows(InvalidInputsException.class, () ->  new Category(1L, "a", "categoryDescription", LocalDateTime.now()));
+    assertThrows(InvalidInputException.class, () ->  new Category(1L, "a", "categoryDescription", LocalDateTime.now()));
   }
 
   @Test
   void createCategoryWithEmptyDescriptionTest() {
-    assertThrows(InvalidInputsException.class, () ->  new Category(1L, "categoryName", "", LocalDateTime.now()));
+    assertThrows(InvalidInputException.class, () ->  new Category(1L, "categoryName", "", LocalDateTime.now()));
   }
 
   @Test
   void createCategoryWithInvalidDescriptionLengthTest() {
-    assertThrows(InvalidInputsException.class, () ->  new Category(1L, "categoryName", "a", LocalDateTime.now()));
+    assertThrows(InvalidInputException.class, () ->  new Category(1L, "categoryName", "a", LocalDateTime.now()));
   }
 
 

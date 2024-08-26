@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.enums.SortDirection;
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputsException;
+import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.sorting.SortingExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
@@ -14,35 +14,30 @@ public class Sorting {
     private SortDirection direction;
 
     public Sorting(String sortBy, String direction) {
-        validate(sortBy, direction);
-        this.sortBy = sortBy;
-        this.direction = SortDirection.valueOf(direction);
+        setSortBy(sortBy);
+        setDirection(direction);
+    }
+    public Sorting(){
     }
 
-    private void validate(String field, String direction){
-        Map<String, String> errors = new HashMap<>();
-        if(InputValidation.isNullOrEmpty(field)){
-            errors.put("field", SortingExceptionCode.EMPTY_SORT_BY.getMessage());
-        }
-        if(!SortDirection.contains(direction)){
-            errors.put("direction", SortingExceptionCode.INVALID_SORT_DIRECTION.getMessage());
-        }
-        if(!errors.isEmpty()){
-            throw new InvalidInputsException(errors);
-        }
-    }
     public String getSortBy() {
         return sortBy;
     }
 
     public void setSortBy(String sortBy) {
+        if(InputValidation.isNullOrEmpty(sortBy)){
+            throw new InvalidInputException(SortingExceptionCode.EMPTY_SORT_BY.getMessage(), SortingExceptionCode.EMPTY_SORT_BY.getCode());
+        }
         this.sortBy = sortBy;
     }
     public SortDirection getDirection() {
         return direction;
     }
 
-    public void setDirection(SortDirection direction) {
-        this.direction = direction;
+    public void setDirection(String direction) {
+        if(!SortDirection.contains(direction)){
+            throw new InvalidInputException(SortingExceptionCode.INVALID_SORT_DIRECTION.getMessage(), SortingExceptionCode.INVALID_SORT_DIRECTION.getCode());
+        }
+        this.direction = SortDirection.valueOf(direction);
     }
 }
