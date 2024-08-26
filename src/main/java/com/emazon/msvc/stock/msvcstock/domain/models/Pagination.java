@@ -2,13 +2,7 @@ package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.pagination.PaginationExceptionCode;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
 
 public class Pagination {
@@ -21,11 +15,17 @@ public class Pagination {
         setSize(size);
     }
 
+    public Pagination(){
+    }
+
     public int getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Integer page) {
+        if(InputValidation.isNull(page)){
+            throw new InvalidInputException(PaginationExceptionCode.NULL_PAGE_NUMBER.getMessage(), PaginationExceptionCode.NULL_PAGE_NUMBER.getCode());
+        }
         if(page < 0){
             throw new InvalidInputException(PaginationExceptionCode.INVALID_PAGE_NUMBER.getMessage(), PaginationExceptionCode.INVALID_PAGE_NUMBER.getCode());
         }
@@ -36,7 +36,10 @@ public class Pagination {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(Integer size) {
+        if(InputValidation.isNull(size)){
+            throw new InvalidInputException(PaginationExceptionCode.NULL_PAGE_SIZE.getMessage(), PaginationExceptionCode.NULL_PAGE_SIZE.getCode());
+        }
         if(size <= 0){
             throw new InvalidInputException(PaginationExceptionCode.INVALID_PAGE_SIZE.getMessage(), PaginationExceptionCode.INVALID_PAGE_SIZE.getCode());
         }
