@@ -6,7 +6,7 @@ public enum ArticleExceptionCode {
   EMPTY_DESCRIPTION("AI003","Article description is required"),
   INVALID_DESCRIPTION_LENGTH("AI004","Article description must be between 10 and 255 characters"),
   EMPTY_BRAND("AI005","Article brand is required"),
-  EMPTY_CATEGORIES("AI006","Article categories are required"),
+  EMPTY_CATEGORIES("AI006","Article requires at least 1 category"),
   LIMIT_CATEGORIES_EXCEEDED("AI007","Article can have up to 3 categories"),
   EMPTY_PRICE("AI008","Article price is required"),
   INVALID_PRICE("AI009","Article price must be greater than 0"),

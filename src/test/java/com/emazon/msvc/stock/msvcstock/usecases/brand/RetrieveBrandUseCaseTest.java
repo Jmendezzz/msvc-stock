@@ -14,12 +14,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RetrieveBrandUseCaseTest {
+class RetrieveBrandUseCaseTest {
 
   private RetrieveBrandUseCase retrieveBrandUseCase;
 
@@ -62,6 +63,14 @@ public class RetrieveBrandUseCaseTest {
     assertEquals(expectedResult, actualResult);
   }
 
+  @Test
+  void getBrandByIdTest() {
+    Brand brand = new Brand(1L, "brandName", "brandDescription");
+    when(retrieveBrandUseCase.retrieveBrandById(1L)).thenReturn(Optional.of(brand));
 
+    Optional<Brand> actualBrand = retrieveBrandUseCase.retrieveBrandById(1L);
+
+    assertEquals(brand, actualBrand.get());
+  }
 
 }
