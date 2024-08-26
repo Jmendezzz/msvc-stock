@@ -5,10 +5,6 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.sorting.SortingExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 public class Sorting {
     private String sortBy;
     private SortDirection direction;
