@@ -4,9 +4,6 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.brand.BrandExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Brand {
   private Long id;
   private String name;
