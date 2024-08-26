@@ -6,22 +6,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "categories")
-public class CategoryEntity {
+@Table(name = "articles")
+public class ArticleEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(unique = true, nullable = false, length = 50)
   private String name;
-  @Column(nullable = false, length = 90)
   private String description;
-  private LocalDateTime createdAt;
-
+  private Double price;
+  private Integer stock;
+  @ManyToOne
+  private BrandEntity brand;
+  @ManyToMany
+  @JoinTable(
+    name = "articles_categories",
+    joinColumns = @JoinColumn(name = "article_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id")
+  )
+  private Set<CategoryEntity> categories;
 }

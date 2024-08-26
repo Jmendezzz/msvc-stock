@@ -5,9 +5,6 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.category.CategoryExcept
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class Category {
   private Long id;
