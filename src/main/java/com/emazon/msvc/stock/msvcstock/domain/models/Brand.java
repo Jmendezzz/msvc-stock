@@ -49,7 +49,7 @@ public class Brand {
     if (InputValidation.isNullOrEmpty(description)) {
       throw new InvalidInputException(BrandExceptionCode.EMPTY_DESCRIPTION.getMessage(), BrandExceptionCode.EMPTY_DESCRIPTION.getCode());
     }
-    if (InputValidation.isInvalidLength(description, 10, 120)) {
+    if (InputValidation.isInvalidLength(description, 3, 120)) {
       throw new InvalidInputException(BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage(), BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getCode());
     }
     this.description = description;

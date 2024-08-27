@@ -2,12 +2,15 @@ package com.emazon.msvc.stock.msvcstock.application.mappers;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleDto;
 import com.emazon.msvc.stock.msvcstock.domain.models.Article;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
+import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,4 +35,10 @@ public interface ArticleMapper {
   }
 
   ArticleDto toDto(Article article);
+  List<ListArticleDto> toDto(List<Article> articles);
+  @Mapping(target = "data", expression = "java(toDto(paginated.getData()))")
+  @Mapping(target = "currentPage", expression = "java(paginated.getCurrentPage())")
+  @Mapping(target = "totalItems", expression = "java(paginated.getTotalItems())")
+  @Mapping(target = "totalPages", expression = "java(paginated.getTotalPages())")
+  Paginated<ListArticleDto> toDtoPaginated(Paginated<Article> paginated);
 }

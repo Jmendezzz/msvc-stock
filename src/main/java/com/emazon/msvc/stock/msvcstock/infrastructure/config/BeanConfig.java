@@ -1,6 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.config;
 
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.CreateArticleUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.RetrieveArticleUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.CreateBrandUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.CreateCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.RetrieveBrandUseCase;
@@ -9,6 +10,7 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.ArticleRepo
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.BrandRepository;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.article.CreateArticleUseCaseImp;
+import com.emazon.msvc.stock.msvcstock.domain.usecases.article.RetrieveArticleUseCaseImp;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.brand.CreateBrandUseCaseImp;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.brand.RetrieveBrandUseCaseImp;
 import com.emazon.msvc.stock.msvcstock.domain.usecases.category.CreateCategoryUseCaseImp;
@@ -45,6 +47,10 @@ public class BeanConfig {
   @Bean
   public CreateArticleUseCase createArticleUseCase() {
     return new CreateArticleUseCaseImp(articleRepository, retrieveCategoryUseCase(), retrieveBrandUseCase());
+  }
+  @Bean
+  public RetrieveArticleUseCase retrieveArticleUseCase() {
+    return new RetrieveArticleUseCaseImp(articleRepository);
   }
 
 }
