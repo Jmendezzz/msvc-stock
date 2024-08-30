@@ -7,7 +7,6 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.CategoryMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
-import com.emazon.msvc.stock.msvcstock.application.services.CategoryService;
 import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryServiceImp;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
@@ -75,6 +74,7 @@ class CategoryServiceTest {
     PaginationDto paginationDto = new PaginationDto(0, 10);
     SortingDto sortingDto = new SortingDto("name", "ASC");
 
+    // Prepare input mapped to domain
     Pagination pagination = new Pagination(0, 10);
     Sorting sorting = new Sorting("name", "ASC");
 
@@ -82,7 +82,7 @@ class CategoryServiceTest {
     Category category2 = new Category(2L, "Second", "categoryDescription2");
     Paginated<Category> paginatedCategories = new Paginated<>(List.of(category1, category2), 0L, 2L, 1L);
 
-    // Preparar los DTOs de salida esperados
+    // Prepare expected result
     CategoryDto categoryDto1 = new CategoryDto(1L, "First", "categoryDescription1");
     CategoryDto categoryDto2 = new CategoryDto(2L, "Second", "categoryDescription2");
     Paginated<CategoryDto> expectedPaginatedCategoryDto = new Paginated<>(List.of(categoryDto1, categoryDto2), 0L, 2L, 1L);
