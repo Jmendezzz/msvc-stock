@@ -1,11 +1,9 @@
-package com.emazon.msvc.stock.msvcstock.models;
+package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
-import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,7 +20,7 @@ class CategoryTest {
   @Test
   void testCreateValidCategory() {
     assertDoesNotThrow(() -> {
-     new Category(1L, "ValidName", "ValidDescription", LocalDateTime.now());
+     new Category(1L, "ValidName", "ValidDescription");
     });
   }
 

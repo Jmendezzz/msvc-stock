@@ -10,14 +10,11 @@ public class Category {
   private Long id;
   private String name;
   private String description;
-  private LocalDateTime createdAt;
 
-
-  public Category(Long id, String name, String description, LocalDateTime createdAt) {
+  public Category(Long id, String name, String description) {
     setId(id);
     setName(name);
     setDescription(description);
-    setCreatedAt(createdAt);
   }
   public Category(){}
 
@@ -57,11 +54,4 @@ public class Category {
     this.description = description;
   }
 
-  public LocalDateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
 }
