@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.models;
+package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;

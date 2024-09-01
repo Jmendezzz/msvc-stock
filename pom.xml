@@ -131,8 +131,6 @@
 				<version>0.8.10</version>
 				<configuration>
 					<excludes>
-						<exclude>**/com/emazon/msvc/stock/msvcstock/application/**</exclude>
-						<exclude>**/com/emazon/msvc/stock/msvcstock/infrastructure/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>

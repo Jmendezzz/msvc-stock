@@ -7,6 +7,7 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Article;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,7 +15,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {BrandMapper.class, CategoryMapper.class})
+@Mapper(componentModel = "spring",
+        uses = {BrandMapper.class, CategoryMapper.class},
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ArticleMapper {
 
   @Mapping(source = "brandId", target = "brand")

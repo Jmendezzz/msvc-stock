@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.usecases.brand;
+package com.emazon.msvc.stock.msvcstock.domain.usecases.brand;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.brand.DuplicateBrandNameException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;

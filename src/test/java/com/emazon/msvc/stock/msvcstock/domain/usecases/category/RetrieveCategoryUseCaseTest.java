@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.usecases.category;
+package com.emazon.msvc.stock.msvcstock.domain.usecases.category;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.sorting.InvalidSortByFieldException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
@@ -7,14 +7,12 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
-import com.emazon.msvc.stock.msvcstock.domain.usecases.category.RetrieveCategoryUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 
@@ -53,7 +51,7 @@ class RetrieveCategoryUseCaseTest {
     Pagination expectedPagination = new Pagination(0, 10);
     Sorting expectedSorting = new Sorting("name", "ASC");
 
-    Category category = new Category(1L, "categoryName", "categoryDescription", LocalDateTime.now());
+    Category category = new Category(1L, "categoryName", "categoryDescription");
     Paginated<Category> expectedResult = new Paginated<Category>(Collections.singletonList(category), 0L,1L,1L);
 
     when(retrieveCategoryUseCase.retrieveCategories(expectedPagination, expectedSorting)).thenReturn(expectedResult);
@@ -73,7 +71,7 @@ class RetrieveCategoryUseCaseTest {
 
   @Test
   void getCategoriesByIdsTest() {
-    Category category = new Category(1L, "categoryName", "categoryDescription", LocalDateTime.now());
+    Category category = new Category(1L, "categoryName", "categoryDescription");
     Set<Category> expectedResult = Collections.singleton(category);
     Set<Long> ids = Set.of(1L);
     when(retrieveCategoryUseCase.retrieveCategoriesByIds(ids)).thenReturn(expectedResult);

@@ -1,13 +1,9 @@
-package com.emazon.msvc.stock.msvcstock.models;
+package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
-import com.emazon.msvc.stock.msvcstock.domain.models.Article;
-import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
-import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -22,7 +18,7 @@ class ArticleTest {
   @Test
   void testCreateValidArticle() {
     Brand brand = new Brand(1L, "BrandName", "BrandDescription");
-    Category category = new Category(1L, "Category1", "CategoryDescription", LocalDateTime.now());
+    Category category = new Category(1L, "Category1", "CategoryDescription");
     assertDoesNotThrow(() -> {
      new Article(1L, "ValidName", "ValidDescription", 99.0, 10, brand, Set.of(category));
     });
@@ -96,10 +92,10 @@ class ArticleTest {
   @Test
   void testSetTooManyCategories(){
     Set<Category> categories = Set.of(
-      new Category(1L, "Category1", "CategoryDescription", LocalDateTime.now()),
-      new Category(2L, "Category2", "CategoryDescription", LocalDateTime.now()),
-      new Category(3L, "Category3", "CategoryDescription", LocalDateTime.now()),
-      new Category(4L, "Category4", "CategoryDescription", LocalDateTime.now())
+      new Category(1L, "Category1", "CategoryDescription"),
+      new Category(2L, "Category2", "CategoryDescription"),
+      new Category(3L, "Category3", "CategoryDescription"),
+      new Category(4L, "Category4", "CategoryDescription")
     );
     assertThrows(InvalidInputException.class,() -> article.setCategories(categories));
   }
