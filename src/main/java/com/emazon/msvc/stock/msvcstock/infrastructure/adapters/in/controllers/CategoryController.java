@@ -4,7 +4,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
-import com.emazon.msvc.stock.msvcstock.application.services.CategoryService;
+import com.emazon.msvc.stock.msvcstock.application.handlers.CategoryHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Tag(name = "Category Controller", description = "Category Management")
 public class CategoryController {
-  private final CategoryService categoryService;
+  private final CategoryHandler categoryHandler;
 
   @Operation(
           summary = "Create a new category",
@@ -55,7 +55,7 @@ public class CategoryController {
   @PostMapping("/create")
   public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto) {
     return new ResponseEntity<>(
-            categoryService.create(createCategoryDto),
+            categoryHandler.create(createCategoryDto),
             HttpStatus.CREATED
     );
   }
@@ -100,7 +100,7 @@ public class CategoryController {
           @Valid @ModelAttribute SortingDto sorting
   ) {
 
-    Paginated<CategoryDto> paginatedCategories = categoryService.retrieveCategories(pagination, sorting);
+    Paginated<CategoryDto> paginatedCategories = categoryHandler.retrieveCategories(pagination, sorting);
 
     return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
   }

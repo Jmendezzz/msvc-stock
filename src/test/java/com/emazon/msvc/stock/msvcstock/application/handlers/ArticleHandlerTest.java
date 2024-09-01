@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.application.services;
+package com.emazon.msvc.stock.msvcstock.application.handlers;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
@@ -11,7 +11,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.ArticleMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
-import com.emazon.msvc.stock.msvcstock.application.services.imp.ArticleServiceImp;
+import com.emazon.msvc.stock.msvcstock.application.handlers.imp.ArticleHandlerImp;
 import com.emazon.msvc.stock.msvcstock.domain.models.*;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.CreateArticleUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.RetrieveArticleUseCase;
@@ -30,9 +30,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ArticleServiceTest {
+class ArticleHandlerTest {
 
-  private ArticleService articleService;
+  private ArticleHandler articleHandler;
   @Mock
   private CreateArticleUseCase createArticleUseCase;
   @Mock
@@ -47,7 +47,7 @@ class ArticleServiceTest {
 
   @BeforeEach
   public void setUp() {
-    articleService = new ArticleServiceImp(
+    articleHandler = new ArticleHandlerImp(
       createArticleUseCase,
       retrieveArticleUseCase,
       mapper,
@@ -68,7 +68,7 @@ class ArticleServiceTest {
     when(createArticleUseCase.create(mapper.toDomain(createArticleDto))).thenReturn(expectedArticle);
     when(mapper.toDto(expectedArticle)).thenReturn(expectedResult);
 
-    ArticleDto createdArticle = articleService.createArticle(createArticleDto);
+    ArticleDto createdArticle = articleHandler.createArticle(createArticleDto);
 
     assertEquals(expectedResult, createdArticle);
   }
@@ -98,7 +98,7 @@ class ArticleServiceTest {
     when(retrieveArticleUseCase.retrieveArticles(pagination, sorting)).thenReturn(expectedResult);
     when(mapper.toDtoPaginated(expectedResult)).thenReturn(expectedPaginatedArticleDto);
 
-    Paginated<ListArticleDto> result = articleService.retrieveArticles(paginationDto, sortingDto);
+    Paginated<ListArticleDto> result = articleHandler.retrieveArticles(paginationDto, sortingDto);
 
     assertEquals(expectedPaginatedArticleDto, result);
   }
