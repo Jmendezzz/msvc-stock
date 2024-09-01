@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.usecases.article;
+package com.emazon.msvc.stock.msvcstock.domain.usecases.article;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleBrandNotFoundException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleCategoryNotFoundException;
@@ -9,7 +9,6 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.CreateAr
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.RetrieveBrandUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.RetrieveCategoryUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.ArticleRepository;
-import com.emazon.msvc.stock.msvcstock.domain.usecases.article.CreateArticleUseCaseImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,8 +45,8 @@ class CreateArticleUseCaseTest {
     createArticleUseCase = new CreateArticleUseCaseImp(articleRepository, retrieveCategoryUseCase, retrieveBrandUseCase);
 
     brand = new Brand(1L, "BrandName", "BrandDescription");
-    category1 = new Category(1L, "Category1", "CategoryDescription", LocalDateTime.now());
-    category2 = new Category(2L, "Category2", "CategoryDescription", LocalDateTime.now());
+    category1 = new Category(1L, "Category1", "CategoryDescription");
+    category2 = new Category(2L, "Category2", "CategoryDescription");
     article = new Article(null, "ArticleName", "ArticleDescription", 99.0, 10, brand, Set.of(category1, category2));
   }
 

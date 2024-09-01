@@ -9,6 +9,8 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.services.ArticleService;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,10 +18,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/articles")
@@ -29,7 +27,15 @@ public class ArticleController {
   private final ArticleService articleService;
   @Operation(
           summary = "Create an article",
-          description = "Create an article in the stock"
+          description = "Create an article in the stock",
+          parameters = {
+                  @Parameter(
+                          name = "articleDto",
+                          description = "Article information",
+                          required = true,
+                          schema = @Schema(implementation = CreateArticleDto.class)
+                  )
+          }
   )
   @ApiResponses(
           value = {
@@ -51,6 +57,35 @@ public class ArticleController {
       );
   }
 
+  @Operation(
+          summary = "Retrieve articles",
+          description = "Retrieve articles from the stock",
+          parameters = {
+                  @Parameter(
+                          name = "pagination",
+                          description = "Pagination information",
+                          schema = @Schema(implementation = PaginationDto.class)
+                  ),
+                  @Parameter(
+                          name = "sorting",
+                          description = "Sorting information",
+                          schema = @Schema(implementation = SortingDto.class)
+                  )
+          }
+  )
+  @ApiResponses(
+          value = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "Articles retrieved successfully"
+                  ),
+                  @ApiResponse(
+                          responseCode = "400",
+                          description = "Bad request, invalid data provided"
+                  )
+          }
+
+  )
   @GetMapping()
   public ResponseEntity<Paginated<ListArticleDto>> retrieveArticles(
           @ModelAttribute PaginationDto pagination,

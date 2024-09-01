@@ -12,5 +12,4 @@ public interface SortingMapper {
 
   @Mapping(source = "direction", target = "direction")
   Sorting toDomain(SortingDto sortingDto);
-  Set<Sorting> toDomain(Set<SortingDto> sortingDtos);
 }
