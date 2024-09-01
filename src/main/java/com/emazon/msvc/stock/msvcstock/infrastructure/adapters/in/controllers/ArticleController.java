@@ -6,7 +6,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
-import com.emazon.msvc.stock.msvcstock.application.services.ArticleService;
+import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Tag(name = "Article Controller", description = "Article Management")
 public class ArticleController {
-  private final ArticleService articleService;
+  private final ArticleHandler articleHandler;
   @Operation(
           summary = "Create an article",
           description = "Create an article in the stock",
@@ -52,7 +52,7 @@ public class ArticleController {
   @PostMapping("/create")
   public ResponseEntity<ArticleDto> createArticle(@RequestBody CreateArticleDto articleDto){
     return new ResponseEntity<>(
-            articleService.createArticle(articleDto),
+            articleHandler.createArticle(articleDto),
             HttpStatus.CREATED
       );
   }
@@ -92,7 +92,7 @@ public class ArticleController {
           @ModelAttribute SortingDto sorting
           ){
     return new ResponseEntity<>(
-            articleService.retrieveArticles(
+            articleHandler.retrieveArticles(
                     pagination,
                     sorting
             ),

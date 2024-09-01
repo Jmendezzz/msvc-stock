@@ -4,7 +4,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
-import com.emazon.msvc.stock.msvcstock.application.services.BrandService;
+import com.emazon.msvc.stock.msvcstock.application.handlers.BrandHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Tag(name = "Brand Controller", description = "Brand Management")
 public class BrandController {
-  private final BrandService brandService;
+  private final BrandHandler brandHandler;
 
   @PostMapping("/create")
   @Operation(
@@ -55,7 +55,7 @@ public class BrandController {
   )
   public ResponseEntity<BrandDto> createBrand(@RequestBody CreateBrandDto createBrandDto) {
     return new ResponseEntity<>(
-            brandService.createBrand(createBrandDto),
+            brandHandler.createBrand(createBrandDto),
             HttpStatus.CREATED
     );
   }
@@ -99,6 +99,6 @@ public class BrandController {
           @ModelAttribute PaginationDto pagination,
           @ModelAttribute SortingDto sorting
   ) {
-    return ResponseEntity.ok(brandService.retrieveBrands(pagination,sorting));
+    return ResponseEntity.ok(brandHandler.retrieveBrands(pagination,sorting));
   }
 }

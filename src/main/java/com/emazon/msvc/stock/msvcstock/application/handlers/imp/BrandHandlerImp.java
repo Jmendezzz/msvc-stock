@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.application.services.imp;
+package com.emazon.msvc.stock.msvcstock.application.handlers.imp;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
@@ -7,7 +7,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.BrandMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
-import com.emazon.msvc.stock.msvcstock.application.services.BrandService;
+import com.emazon.msvc.stock.msvcstock.application.handlers.BrandHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.CreateBrandUseCase;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class BrandServiceImp implements BrandService {
+public class BrandHandlerImp implements BrandHandler {
   private final CreateBrandUseCase createBrandUseCase;
   private final RetrieveBrandUseCase retrieveBrandUseCase;
   private final BrandMapper mapper;

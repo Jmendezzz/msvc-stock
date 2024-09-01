@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.application.services;
+package com.emazon.msvc.stock.msvcstock.application.handlers;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
@@ -7,7 +7,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.CategoryMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
-import com.emazon.msvc.stock.msvcstock.application.services.imp.CategoryServiceImp;
+import com.emazon.msvc.stock.msvcstock.application.handlers.imp.CategoryHandlerImp;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
@@ -26,9 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CategoryServiceTest {
+class CategoryHandlerTest {
 
-  private CategoryService categoryService;
+  private CategoryHandler categoryHandler;
   @Mock
   private CreateCategoryUseCase createCategoryUseCase;
   @Mock
@@ -42,7 +42,7 @@ class CategoryServiceTest {
 
   @BeforeEach
   public void setUp() {
-    categoryService = new CategoryServiceImp(
+    categoryHandler = new CategoryHandlerImp(
       createCategoryUseCase,
       retrieveCategoriesUseCase,
       mapper,
@@ -61,7 +61,7 @@ class CategoryServiceTest {
     when(createCategoryUseCase.create(mapper.toDomain(createCategoryDto))).thenReturn(expectedCategory);
     when(mapper.toDto(expectedCategory)).thenReturn(expectedResult);
 
-    CategoryDto categoryCreated = categoryService.create(createCategoryDto);
+    CategoryDto categoryCreated = categoryHandler.create(createCategoryDto);
 
     assertEquals(expectedResult, categoryCreated);
 
@@ -92,7 +92,7 @@ class CategoryServiceTest {
     when(retrieveCategoriesUseCase.retrieveCategories(pagination, sorting)).thenReturn(paginatedCategories);
     when(mapper.toDtoPaginated(paginatedCategories)).thenReturn(expectedPaginatedCategoryDto);
 
-    Paginated<CategoryDto> result = categoryService.retrieveCategories(paginationDto, sortingDto);
+    Paginated<CategoryDto> result = categoryHandler.retrieveCategories(paginationDto, sortingDto);
 
     assertEquals(expectedPaginatedCategoryDto, result);
     assertEquals(1L, result.getData().get(0).id());

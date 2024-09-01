@@ -1,4 +1,4 @@
-package com.emazon.msvc.stock.msvcstock.application.services;
+package com.emazon.msvc.stock.msvcstock.application.handlers;
 
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
@@ -7,7 +7,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.BrandMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
-import com.emazon.msvc.stock.msvcstock.application.services.imp.BrandServiceImp;
+import com.emazon.msvc.stock.msvcstock.application.handlers.imp.BrandHandlerImp;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class BrandServiceTest {
-  private BrandService brandService;
+class BrandHandlerTest {
+  private BrandHandler brandHandler;
   @Mock
   private CreateBrandUseCase createBrandUseCase;
   @Mock
@@ -42,7 +42,7 @@ class BrandServiceTest {
 
   @BeforeEach
   public void setUp() {
-    brandService = new BrandServiceImp(
+    brandHandler = new BrandHandlerImp(
       createBrandUseCase,
       retrieveBrandsUseCase,
       mapper,
@@ -63,7 +63,7 @@ class BrandServiceTest {
     when(createBrandUseCase.create(createBrandDtoMapped)).thenReturn(createdBrand);
     when(mapper.toDto(createdBrand)).thenReturn(expectedResult);
 
-    BrandDto brandCreated = brandService.createBrand(createBrandDto);
+    BrandDto brandCreated = brandHandler.createBrand(createBrandDto);
 
     assertEquals(expectedResult.id(), brandCreated.id());
     assertEquals(expectedResult.name(), brandCreated.name());
@@ -97,7 +97,7 @@ class BrandServiceTest {
     when(retrieveBrandsUseCase.retrieveBrands(pagination, sorting)).thenReturn(expectedResult);
     when(mapper.toDtoPaginated(expectedResult)).thenReturn(expectedPaginatedBrandDto);
 
-    Paginated<BrandDto> result = brandService.retrieveBrands(paginationDto, sortingDto);
+    Paginated<BrandDto> result = brandHandler.retrieveBrands(paginationDto, sortingDto);
 
     assertEquals(expectedPaginatedBrandDto, result);
   }
