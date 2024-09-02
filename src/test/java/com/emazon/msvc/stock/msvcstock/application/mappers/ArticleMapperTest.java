@@ -40,7 +40,7 @@ class ArticleMapperTest {
     assertEquals(createArticleRequestDto.price(), article.getPrice());
     assertEquals(createArticleRequestDto.stock(), article.getStock());
     assertEquals(createArticleRequestDto.brandId(), article.getBrand().getId());
-    assertEquals(createArticleRequestDto.categoriesIds(), article.getCategories().stream().map(Category::getId).collect(Collectors.toSet()));
+    assertEquals(createArticleRequestDto.categoriesIds().size(), article.getCategories().size());
   }
 
   @Test

@@ -9,10 +9,10 @@ import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.brand.Brand
 
 public record CreateBrandRequestDto(
         @NotBlank(message = BRAND_NAME_REQUIRED)
-        @Size(min = BRAND_NAME_MIN_LENGTH, max = BRAND_NAME_MAX_LENGTH, message = BRAND_NAME_LENGTH)
+        @Size(min = BRAND_NAME_MIN_LENGTH, max = BRAND_NAME_MAX_LENGTH, message = BRAND_NAME_INVALID_LENGTH)
         String name,
         @NotBlank(message = BRAND_DESCRIPTION_REQUIRED)
-        @Size(min = BRAND_DESCRIPTION_MIN_LENGTH, max = BRAND_DESCRIPTION_MAX_LENGTH, message = BRAND_DESCRIPTION_LENGTH)
+        @Size(min = BRAND_DESCRIPTION_MIN_LENGTH, max = BRAND_DESCRIPTION_MAX_LENGTH, message = BRAND_DESCRIPTION_INVALID_LENGTH)
         String description
 ) {
 }
