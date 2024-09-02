@@ -3,7 +3,10 @@ package com.emazon.msvc.stock.msvcstock.domain.models;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.article.ArticleExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
+import com.emazon.msvc.stock.msvcstock.domain.utils.constants.article.ArticleValidationCode;
+import com.emazon.msvc.stock.msvcstock.domain.utils.constants.article.ArticleValidationMessage;
 
+import java.util.List;
 import java.util.Set;
 
 public class Article {
@@ -24,6 +27,16 @@ public class Article {
     setBrand(brand);
     setCategories(categories);
   }
+  public Article(Long id, String name, String description, Double price, Integer stock, Brand brand, List<Category> categories) {
+    setId(id);
+    setName(name);
+    setDescription(description);
+    setPrice(price);
+    setStock(stock);
+    setBrand(brand);
+    setCategories(categories);
+  }
+
   public Article(){
 
   }
@@ -86,6 +99,20 @@ public class Article {
       throw new InvalidInputException(ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getMessage(), ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getCode());
     }
     this.categories = categories;
+  }
+
+  public void setCategories(List<Category> categories) {
+    if(InputValidation.isNull(categories) || categories.isEmpty()){
+      throw new InvalidInputException(ArticleExceptionCode.EMPTY_CATEGORIES.getMessage(), ArticleExceptionCode.EMPTY_CATEGORIES.getCode());
+    }
+    if(categories.size() > 3){
+      throw new InvalidInputException(ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getMessage(), ArticleExceptionCode.LIMIT_CATEGORIES_EXCEEDED.getCode());
+    }
+    Set<Category> categoriesSet = Set.copyOf(categories);
+    if(categoriesSet.size() != categories.size()){
+      throw new InvalidInputException(ArticleValidationMessage.ARTICLE_CATEGORIES_REPEATED, ArticleValidationCode.ARTICLE_CATEGORIES_REPEATED_CODE);
+    }
+    this.categories = categoriesSet;
   }
 
   public Double getPrice() {

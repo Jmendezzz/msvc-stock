@@ -1,10 +1,10 @@
 package com.emazon.msvc.stock.msvcstock.application.mappers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleCategoryDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleCategoryResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
 import com.emazon.msvc.stock.msvcstock.domain.models.Article;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
@@ -32,21 +32,21 @@ class ArticleMapperTest {
   }
   @Test
   void testCreateArticleDtoToArticle(){
-    CreateArticleDto createArticleDto = new CreateArticleDto("articleName", "articleDescription", 200.0, 10, 1L, Set.of(1L,2L));
-    Article article = articleMapper.toDomain(createArticleDto);
+    CreateArticleRequestDto createArticleRequestDto = new CreateArticleRequestDto("articleName", "articleDescription", 200.0, 10, 1L, List.of(1L,2L));
+    Article article = articleMapper.toDomain(createArticleRequestDto);
 
-    assertEquals(createArticleDto.name(), article.getName());
-    assertEquals(createArticleDto.description(), article.getDescription());
-    assertEquals(createArticleDto.price(), article.getPrice());
-    assertEquals(createArticleDto.stock(), article.getStock());
-    assertEquals(createArticleDto.brandId(), article.getBrand().getId());
-    assertEquals(createArticleDto.categoriesIds(), article.getCategories().stream().map(Category::getId).collect(Collectors.toSet()));
+    assertEquals(createArticleRequestDto.name(), article.getName());
+    assertEquals(createArticleRequestDto.description(), article.getDescription());
+    assertEquals(createArticleRequestDto.price(), article.getPrice());
+    assertEquals(createArticleRequestDto.stock(), article.getStock());
+    assertEquals(createArticleRequestDto.brandId(), article.getBrand().getId());
+    assertEquals(createArticleRequestDto.categoriesIds(), article.getCategories().stream().map(Category::getId).collect(Collectors.toSet()));
   }
 
   @Test
   void testCreateNullArticleDtoToArticle(){
-    CreateArticleDto createArticleDto = null;
-    assertNull(articleMapper.toDomain(createArticleDto));
+    CreateArticleRequestDto createArticleRequestDto = null;
+    assertNull(articleMapper.toDomain(createArticleRequestDto));
   }
 
   @Test
@@ -60,26 +60,26 @@ class ArticleMapperTest {
             new Brand(1L, "brandName", "brandDescription"),
             Set.of(new Category(1L, "categoryName", "categoryDescription"), new Category(2L, "categoryName", "categoryDescription")));
 
-    ArticleDto articleDto = articleMapper.toDto(article);
+    ArticleResponseDto articleResponseDto = articleMapper.toDto(article);
 
-    assertEquals(article.getId(), articleDto.id());
-    assertEquals(article.getName(), articleDto.name());
-    assertEquals(article.getDescription(), articleDto.description());
-    assertEquals(article.getPrice(), articleDto.price());
-    assertEquals(article.getStock(), articleDto.stock());
+    assertEquals(article.getId(), articleResponseDto.id());
+    assertEquals(article.getName(), articleResponseDto.name());
+    assertEquals(article.getDescription(), articleResponseDto.description());
+    assertEquals(article.getPrice(), articleResponseDto.price());
+    assertEquals(article.getStock(), articleResponseDto.stock());
 
-    assertEquals(article.getBrand().getId(), articleDto.brand().id());
-    assertEquals(article.getBrand().getName(), articleDto.brand().name());
-    assertEquals(article.getBrand().getDescription(), articleDto.brand().description());
+    assertEquals(article.getBrand().getId(), articleResponseDto.brand().id());
+    assertEquals(article.getBrand().getName(), articleResponseDto.brand().name());
+    assertEquals(article.getBrand().getDescription(), articleResponseDto.brand().description());
 
     assertEquals(article.getCategories().stream().map(Category::getId).collect(Collectors.toSet()),
-            articleDto.categories().stream().map(CategoryDto::id).collect(Collectors.toSet()));
+            articleResponseDto.categories().stream().map(CategoryResponseDto::id).collect(Collectors.toSet()));
 
     assertEquals(article.getCategories().stream().map(Category::getName).collect(Collectors.toSet()),
-            articleDto.categories().stream().map(CategoryDto::name).collect(Collectors.toSet()));
+            articleResponseDto.categories().stream().map(CategoryResponseDto::name).collect(Collectors.toSet()));
 
     assertEquals(article.getCategories().stream().map(Category::getDescription).collect(Collectors.toSet()),
-            articleDto.categories().stream().map(CategoryDto::description).collect(Collectors.toSet()));
+            articleResponseDto.categories().stream().map(CategoryResponseDto::description).collect(Collectors.toSet()));
   }
 
 
@@ -92,13 +92,13 @@ class ArticleMapperTest {
   @Test
   void articleListToListArticleDto(){
     List<Article> articles =  createArticleList();
-    List<ListArticleDto> articleDtos = articleMapper.toDto(articles);
+    List<ListArticleResponseDto> articleDtos = articleMapper.toDto(articles);
 
     assertEquals(articles.size(), articleDtos.size());
 
     for (int i = 0; i < articles.size(); i++) {
       Article article = articles.get(i);
-      ListArticleDto articleDto = articleDtos.get(i);
+      ListArticleResponseDto articleDto = articleDtos.get(i);
 
       assertEquals(article.getId(), articleDto.id());
       assertEquals(article.getName(), articleDto.name());
@@ -112,7 +112,7 @@ class ArticleMapperTest {
 
       for(int j = 0; j < article.getCategories().size(); j++){
         Category category = article.getCategories().stream().toList().get(j);
-        ListArticleCategoryDto categoryDto = articleDto.categories().stream().toList().get(j);
+        ListArticleCategoryResponseDto categoryDto = articleDto.categories().stream().toList().get(j);
 
         assertEquals(category.getId(), categoryDto.id());
         assertEquals(category.getName(), categoryDto.name());
@@ -131,7 +131,7 @@ class ArticleMapperTest {
   void articlePaginatedToArticleDtoPaginated(){
     List<Article> articles = createArticleList();
     Paginated<Article> paginated = new Paginated<>(articles, 0L, 2L, 1L);
-    Paginated<ListArticleDto> paginatedDto = articleMapper.toDtoPaginated(paginated);
+    Paginated<ListArticleResponseDto> paginatedDto = articleMapper.toDtoPaginated(paginated);
 
     assertEquals(paginated.getCurrentPage(), paginatedDto.getCurrentPage());
     assertEquals(paginated.getTotalItems(), paginatedDto.getTotalItems());
@@ -139,7 +139,7 @@ class ArticleMapperTest {
 
     for (int i = 0; i < articles.size(); i++) {
       Article article = articles.get(i);
-      ListArticleDto articleDto = paginatedDto.getData().get(i);
+      ListArticleResponseDto articleDto = paginatedDto.getData().get(i);
 
       assertEquals(article.getId(), articleDto.id());
       assertEquals(article.getName(), articleDto.name());
@@ -153,7 +153,7 @@ class ArticleMapperTest {
 
       for(int j = 0; j < article.getCategories().size(); j++){
         Category category = article.getCategories().stream().toList().get(j);
-        ListArticleCategoryDto categoryDto = articleDto.categories().stream().toList().get(j);
+        ListArticleCategoryResponseDto categoryDto = articleDto.categories().stream().toList().get(j);
 
         assertEquals(category.getId(), categoryDto.id());
         assertEquals(category.getName(), categoryDto.name());

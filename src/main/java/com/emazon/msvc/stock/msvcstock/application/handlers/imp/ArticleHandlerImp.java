@@ -1,8 +1,8 @@
 package com.emazon.msvc.stock.msvcstock.application.handlers.imp;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.ArticleMapper;
@@ -26,13 +26,13 @@ public class ArticleHandlerImp implements ArticleHandler {
   private final SortingMapper sortingMapper;
 
   @Override
-  public ArticleDto createArticle(CreateArticleDto articleDto) {
+  public ArticleResponseDto createArticle(CreateArticleRequestDto articleDto) {
     Article articleCreated = createArticleUseCase.create(mapper.toDomain(articleDto));
     return mapper.toDto(articleCreated);
   }
 
   @Override
-  public Paginated<ListArticleDto> retrieveArticles(PaginationDto pagination, SortingDto sorting) {
+  public Paginated<ListArticleResponseDto> retrieveArticles(PaginationDto pagination, SortingDto sorting) {
     Paginated<Article> articles = retrieveArticleUseCase.retrieveArticles(
             paginationMapper.toDomain(pagination), sortingMapper.toDomain(sorting)
     );

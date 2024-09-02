@@ -1,6 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.application.dtos.brand;
 
-public record BrandDto(
+public record BrandResponseDto(
         Long id,
         String name,
         String description

@@ -1,6 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.dtos.category;
 
-public record CreateCategoryDto(
+public record CategoryResponseDto(
+        Long id,
         String name,
         String description
 ) {

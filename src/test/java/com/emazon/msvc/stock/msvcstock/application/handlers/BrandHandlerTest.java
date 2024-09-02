@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.handlers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.BrandMapper;
@@ -53,17 +53,17 @@ class BrandHandlerTest {
 
   @Test
   void createBrandTest() {
-    CreateBrandDto createBrandDto = new CreateBrandDto("brandName", "brandDescription");
+    CreateBrandRequestDto createBrandRequestDto = new CreateBrandRequestDto("brandName", "brandDescription");
     Brand createBrandDtoMapped = new Brand(null, "brandName", "brandDescription");
 
     Brand createdBrand = new Brand(1L, "brandName", "brandDescription");
-    BrandDto expectedResult = new BrandDto(1L, "brandName", "brandDescription");
+    BrandResponseDto expectedResult = new BrandResponseDto(1L, "brandName", "brandDescription");
 
-    when(mapper.toDomain(createBrandDto)).thenReturn(createBrandDtoMapped);
+    when(mapper.toDomain(createBrandRequestDto)).thenReturn(createBrandDtoMapped);
     when(createBrandUseCase.create(createBrandDtoMapped)).thenReturn(createdBrand);
     when(mapper.toDto(createdBrand)).thenReturn(expectedResult);
 
-    BrandDto brandCreated = brandHandler.createBrand(createBrandDto);
+    BrandResponseDto brandCreated = brandHandler.createBrand(createBrandRequestDto);
 
     assertEquals(expectedResult.id(), brandCreated.id());
     assertEquals(expectedResult.name(), brandCreated.name());
@@ -87,9 +87,9 @@ class BrandHandlerTest {
     ), 0L,0L,0L);
 
     // Prepare expected result
-    Paginated<BrandDto> expectedPaginatedBrandDto = new Paginated<BrandDto>(List.of(
-      new BrandDto(1L, "First", "brandDescription1"),
-      new BrandDto(2L, "Second", "brandDescription2")
+    Paginated<BrandResponseDto> expectedPaginatedBrandDto = new Paginated<BrandResponseDto>(List.of(
+      new BrandResponseDto(1L, "First", "brandDescription1"),
+      new BrandResponseDto(2L, "Second", "brandDescription2")
     ), 0L,0L,0L);
 
     when(paginationMapper.toDomain(paginationDto)).thenReturn(pagination);
@@ -97,7 +97,7 @@ class BrandHandlerTest {
     when(retrieveBrandsUseCase.retrieveBrands(pagination, sorting)).thenReturn(expectedResult);
     when(mapper.toDtoPaginated(expectedResult)).thenReturn(expectedPaginatedBrandDto);
 
-    Paginated<BrandDto> result = brandHandler.retrieveBrands(paginationDto, sortingDto);
+    Paginated<BrandResponseDto> result = brandHandler.retrieveBrands(paginationDto, sortingDto);
 
     assertEquals(expectedPaginatedBrandDto, result);
   }

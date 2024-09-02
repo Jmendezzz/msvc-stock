@@ -1,9 +1,9 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ArticleController {
                           name = "articleDto",
                           description = "Article information",
                           required = true,
-                          schema = @Schema(implementation = CreateArticleDto.class)
+                          schema = @Schema(implementation = CreateArticleRequestDto.class)
                   )
           }
   )
@@ -50,7 +51,7 @@ public class ArticleController {
           }
   )
   @PostMapping("/create")
-  public ResponseEntity<ArticleDto> createArticle(@RequestBody CreateArticleDto articleDto){
+  public ResponseEntity<ArticleResponseDto> createArticle(@Valid @RequestBody CreateArticleRequestDto articleDto){
     return new ResponseEntity<>(
             articleHandler.createArticle(articleDto),
             HttpStatus.CREATED
@@ -87,7 +88,7 @@ public class ArticleController {
 
   )
   @GetMapping()
-  public ResponseEntity<Paginated<ListArticleDto>> retrieveArticles(
+  public ResponseEntity<Paginated<ListArticleResponseDto>> retrieveArticles(
           @ModelAttribute PaginationDto pagination,
           @ModelAttribute SortingDto sorting
           ){

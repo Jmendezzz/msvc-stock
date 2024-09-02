@@ -1,6 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.application.dtos.article;
 
-public record ListArticleCategoryDto(
+public record ListArticleCategoryResponseDto(
         Long id,
         String name
 ) {

@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.mappers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryRequestDto;
 import com.emazon.msvc.stock.msvcstock.domain.models.Category;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,13 +27,13 @@ class CategoryMapperTest {
 
   @Test
   void testMapCategoryToCategoryDto() {
-    CategoryDto expectedCategoryDto = new CategoryDto(1L, "categoryName", "categoryDescription");
+    CategoryResponseDto expectedCategoryResponseDto = new CategoryResponseDto(1L, "categoryName", "categoryDescription");
     Category category = new Category(1L, "categoryName", "categoryDescription");
-    CategoryDto categoryDto = categoryMapper.toDto(category);
+    CategoryResponseDto categoryResponseDto = categoryMapper.toDto(category);
 
-    assertEquals(expectedCategoryDto.id(), categoryDto.id());
-    assertEquals(expectedCategoryDto.name(), categoryDto.name());
-    assertEquals(expectedCategoryDto.description(), categoryDto.description());
+    assertEquals(expectedCategoryResponseDto.id(), categoryResponseDto.id());
+    assertEquals(expectedCategoryResponseDto.name(), categoryResponseDto.name());
+    assertEquals(expectedCategoryResponseDto.description(), categoryResponseDto.description());
   }
   @Test
   void testMapNullCategoryToCategoryDto() {
@@ -44,8 +44,8 @@ class CategoryMapperTest {
   @Test
   void testCreateCategoryDtoToCategory(){
     Category expectedCategory = new Category(null, "categoryName", "categoryDescription");
-    CreateCategoryDto createCategoryDto = new CreateCategoryDto("categoryName", "categoryDescription");
-    Category category = categoryMapper.toDomain(createCategoryDto);
+    CreateCategoryRequestDto createCategoryRequestDto = new CreateCategoryRequestDto("categoryName", "categoryDescription");
+    Category category = categoryMapper.toDomain(createCategoryRequestDto);
 
     assertEquals(expectedCategory.getId(), category.getId());
     assertEquals(expectedCategory.getName(), category.getName());
@@ -53,21 +53,21 @@ class CategoryMapperTest {
   }
   @Test
   void testCreateNullCategoryDtoToCategory(){
-    CreateCategoryDto createCategoryDto = null;
-    assertNull(categoryMapper.toDomain(createCategoryDto));
+    CreateCategoryRequestDto createCategoryRequestDto = null;
+    assertNull(categoryMapper.toDomain(createCategoryRequestDto));
   }
 
   @Test
   void testListCategoryToCategoryDto(){
-    CategoryDto expectedCategoryDto = new CategoryDto(1L, "categoryName", "categoryDescription");
+    CategoryResponseDto expectedCategoryResponseDto = new CategoryResponseDto(1L, "categoryName", "categoryDescription");
     Category category = new Category(1L, "categoryName", "categoryDescription");
     List<Category> categories = new ArrayList<>();
     categories.add(category);
-    List<CategoryDto> categoryDtos = categoryMapper.toDto(categories);
+    List<CategoryResponseDto> categoryResponseDtos = categoryMapper.toDto(categories);
 
-    assertEquals(expectedCategoryDto.id(), categoryDtos.get(0).id());
-    assertEquals(expectedCategoryDto.name(), categoryDtos.get(0).name());
-    assertEquals(expectedCategoryDto.description(), categoryDtos.get(0).description());
+    assertEquals(expectedCategoryResponseDto.id(), categoryResponseDtos.get(0).id());
+    assertEquals(expectedCategoryResponseDto.name(), categoryResponseDtos.get(0).name());
+    assertEquals(expectedCategoryResponseDto.description(), categoryResponseDtos.get(0).description());
   }
   @Test
   void testListNullCategoryToCategoryDto(){
@@ -76,16 +76,16 @@ class CategoryMapperTest {
   }
   @Test
   void testPaginatedCategoryToPaginatedCategoryDto(){
-    CategoryDto expectedCategoryDto = new CategoryDto(1L, "categoryName", "categoryDescription");
+    CategoryResponseDto expectedCategoryResponseDto = new CategoryResponseDto(1L, "categoryName", "categoryDescription");
     Category category = new Category(1L, "categoryName", "categoryDescription");
     List<Category> categories = new ArrayList<>();
     categories.add(category);
     Paginated<Category> paginated = new Paginated<>(categories, 1L, 1L, 1L);
-    Paginated<CategoryDto> paginatedDto = categoryMapper.toDtoPaginated(paginated);
+    Paginated<CategoryResponseDto> paginatedDto = categoryMapper.toDtoPaginated(paginated);
 
-    assertEquals(expectedCategoryDto.id(), paginatedDto.getData().get(0).id());
-    assertEquals(expectedCategoryDto.name(), paginatedDto.getData().get(0).name());
-    assertEquals(expectedCategoryDto.description(), paginatedDto.getData().get(0).description());
+    assertEquals(expectedCategoryResponseDto.id(), paginatedDto.getData().get(0).id());
+    assertEquals(expectedCategoryResponseDto.name(), paginatedDto.getData().get(0).name());
+    assertEquals(expectedCategoryResponseDto.description(), paginatedDto.getData().get(0).description());
     assertEquals(paginated.getTotalItems(), paginatedDto.getTotalItems());
     assertEquals(paginated.getTotalPages(), paginatedDto.getTotalPages());
     assertEquals(paginated.getCurrentPage(), paginatedDto.getCurrentPage());

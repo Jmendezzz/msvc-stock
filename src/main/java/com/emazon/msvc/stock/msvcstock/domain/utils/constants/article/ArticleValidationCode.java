@@ -1,0 +1,17 @@
+package com.emazon.msvc.stock.msvcstock.domain.utils.constants.article;
+
+public class ArticleValidationCode {
+  public static final String ARTICLE_NAME_REQUIRED_CODE="ARTICLE_NAME_REQUIRED";
+  public static final String ARTICLE_NAME_INVALID_LENGTH_CODE="ARTICLE_NAME_INVALID_LENGTH";
+  public static final String ARTICLE_DESCRIPTION_REQUIRED_CODE="ARTICLE_DESCRIPTION_REQUIRED";
+  public static final String ARTICLE_DESCRIPTION_INVALID_LENGTH_CODE="ARTICLE_DESCRIPTION_INVALID_LENGTH";
+  public static final String ARTICLE_PRICE_REQUIRED_CODE="ARTICLE_PRICE_REQUIRED";
+  public static final String ARTICLE_PRICE_INVALID_CODE="ARTICLE_PRICE_INVALID";
+  public static final String ARTICLE_STOCK_REQUIRED_CODE="ARTICLE_STOCK_REQUIRED";
+  public static final String ARTICLE_STOCK_INVALID_CODE="ARTICLE_STOCK_INVALID";
+  public static final String ARTICLE_BRAND_REQUIRED_CODE="ARTICLE_BRAND_REQUIRED";
+  public static final String ARTICLE_CATEGORIES_REQUIRED_CODE="ARTICLE_CATEGORIES_REQUIRED";
+  public static final String ARTICLE_CATEGORIES_INVALID_LENGTH_CODE="ARTICLE_CATEGORIES_INVALID_LENGTH";
+  public static final String ARTICLE_CATEGORIES_REPEATED_CODE="ARTICLE_CATEGORIES_REPEATED";
+  private ArticleValidationCode() {}
+}

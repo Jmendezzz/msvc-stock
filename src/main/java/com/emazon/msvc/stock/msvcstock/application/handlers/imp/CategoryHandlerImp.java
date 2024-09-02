@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.handlers.imp;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.CategoryMapper;
@@ -25,14 +25,14 @@ public class CategoryHandlerImp implements CategoryHandler {
   private final SortingMapper sortingMapper;
 
   @Override
-  public CategoryDto create(CreateCategoryDto categoryDto) {
+  public CategoryResponseDto create(CreateCategoryRequestDto categoryDto) {
     Category categoryCreated = createCategoryUseCase.create(mapper.toDomain(categoryDto));
 
     return mapper.toDto(categoryCreated);
   }
 
   @Override
-  public Paginated<CategoryDto> retrieveCategories(PaginationDto pagination, SortingDto sort) {
+  public Paginated<CategoryResponseDto> retrieveCategories(PaginationDto pagination, SortingDto sort) {
     Paginated<Category> categories = retrieveCategoriesUseCase
             .retrieveCategories(
                     paginationMapper.toDomain(pagination),
