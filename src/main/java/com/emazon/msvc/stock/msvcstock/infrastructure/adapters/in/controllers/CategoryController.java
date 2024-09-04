@@ -96,7 +96,7 @@ public class CategoryController {
   )
   @GetMapping
   public ResponseEntity<Paginated<CategoryResponseDto>> retrieveCategories(
-          @Valid @ModelAttribute PaginationDto pagination,
+          @ModelAttribute PaginationDto pagination,
           @Valid @ModelAttribute SortingDto sorting
   ) {
 

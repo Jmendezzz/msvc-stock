@@ -50,11 +50,11 @@ class RetrieveBrandUseCaseTest {
 
   @Test
   void getPaginatedBrandsWithResultsTest() {
-    Pagination expectedPagination = new Pagination(0, 10);
+    Pagination expectedPagination = new Pagination(1, 10);
     Sorting expectedSorting = new Sorting("name", "ASC");
 
     Brand brand = new Brand(1L, "brandName", "brandDescription");
-    Paginated<Brand> expectedResult = new Paginated<Brand>(Collections.singletonList(brand), 0L,1L,1L);
+    Paginated<Brand> expectedResult = new Paginated<Brand>(Collections.singletonList(brand), 1L,1L,1L);
 
     when(retrieveBrandUseCase.retrieveBrands(expectedPagination, expectedSorting)).thenReturn(expectedResult);
 
