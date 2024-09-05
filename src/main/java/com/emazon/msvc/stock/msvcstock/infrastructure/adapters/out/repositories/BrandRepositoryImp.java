@@ -29,6 +29,11 @@ public class BrandRepositoryImp implements BrandRepository {
   }
 
   @Override
+  public Optional<Brand> findById(Long id) {
+    return jpaRepository.findById(id).map(mapper::toDomain);
+  }
+
+  @Override
   public Optional<Brand> findByName(String brandName) {
     return jpaRepository.findByName(brandName).map(mapper::toDomain);
   }
@@ -45,8 +50,4 @@ public class BrandRepositoryImp implements BrandRepository {
     return mapper.toDomainPaginated(page);
   }
 
-  @Override
-  public Optional<Brand> findById(Long id) {
-    return jpaRepository.findById(id).map(mapper::toDomain);
-  }
 }

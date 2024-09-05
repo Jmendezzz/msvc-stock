@@ -1,35 +1,42 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
-import com.emazon.msvc.stock.msvcstock.application.services.ArticleService;
+import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/articles")
 @AllArgsConstructor
 @Tag(name = "Article Controller", description = "Article Management")
 public class ArticleController {
-  private final ArticleService articleService;
+  private final ArticleHandler articleHandler;
   @Operation(
           summary = "Create an article",
-          description = "Create an article in the stock"
+          description = "Create an article in the stock",
+          parameters = {
+                  @Parameter(
+                          name = "articleDto",
+                          description = "Article information",
+                          required = true,
+                          schema = @Schema(implementation = CreateArticleRequestDto.class)
+                  )
+          }
   )
   @ApiResponses(
           value = {
@@ -44,20 +51,49 @@ public class ArticleController {
           }
   )
   @PostMapping("/create")
-  public ResponseEntity<ArticleDto> createArticle(@RequestBody CreateArticleDto articleDto){
+  public ResponseEntity<ArticleResponseDto> createArticle(@Valid @RequestBody CreateArticleRequestDto articleDto){
     return new ResponseEntity<>(
-            articleService.createArticle(articleDto),
+            articleHandler.createArticle(articleDto),
             HttpStatus.CREATED
       );
   }
 
+  @Operation(
+          summary = "Retrieve articles",
+          description = "Retrieve articles from the stock",
+          parameters = {
+                  @Parameter(
+                          name = "pagination",
+                          description = "Pagination information",
+                          schema = @Schema(implementation = PaginationDto.class)
+                  ),
+                  @Parameter(
+                          name = "sorting",
+                          description = "Sorting information",
+                          schema = @Schema(implementation = SortingDto.class)
+                  )
+          }
+  )
+  @ApiResponses(
+          value = {
+                  @ApiResponse(
+                          responseCode = "200",
+                          description = "Articles retrieved successfully"
+                  ),
+                  @ApiResponse(
+                          responseCode = "400",
+                          description = "Bad request, invalid data provided"
+                  )
+          }
+
+  )
   @GetMapping()
-  public ResponseEntity<Paginated<ListArticleDto>> retrieveArticles(
-          @ModelAttribute PaginationDto pagination,
-          @ModelAttribute SortingDto sorting
+  public ResponseEntity<Paginated<ListArticleResponseDto>> retrieveArticles(
+          @Valid @ModelAttribute PaginationDto pagination,
+          @Valid @ModelAttribute SortingDto sorting
           ){
     return new ResponseEntity<>(
-            articleService.retrieveArticles(
+            articleHandler.retrieveArticles(
                     pagination,
                     sorting
             ),

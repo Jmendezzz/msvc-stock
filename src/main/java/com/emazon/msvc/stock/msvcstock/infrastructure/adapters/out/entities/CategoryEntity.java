@@ -22,6 +22,5 @@ public class CategoryEntity {
   private String name;
   @Column(nullable = false, length = 90)
   private String description;
-  private LocalDateTime createdAt;
 
 }

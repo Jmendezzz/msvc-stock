@@ -22,9 +22,9 @@ public class RetrieveCategoryUseCaseImp implements RetrieveCategoryUseCase {
 
   @Override
   public Paginated<Category> retrieveCategories(Pagination pagination, Sorting sort) {
-    categorySortingValidation.isValidSortBy(sort.getSortBy());
+    Sorting validatedSorting = categorySortingValidation.validateSorting(sort);
 
-    return categoryRepository.findAll(pagination, sort);
+    return categoryRepository.findAll(pagination, validatedSorting);
   }
 
   @Override

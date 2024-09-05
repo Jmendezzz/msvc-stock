@@ -1,8 +1,11 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.pagination.PaginationExceptionCode;
-import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
+
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.pagination.PaginationConstant.*;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.pagination.PaginationValidationCode.*;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.pagination.PaginationValidationConstant.*;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.pagination.PaginationValidationMessage.*;
 
 
 public class Pagination {
@@ -23,13 +26,13 @@ public class Pagination {
     }
 
     public void setPage(Integer page) {
-        if(InputValidation.isNull(page)){
-            throw new InvalidInputException(PaginationExceptionCode.NULL_PAGE_NUMBER.getMessage(), PaginationExceptionCode.NULL_PAGE_NUMBER.getCode());
+        if(page == null){
+            this.page = DEFAULT_PAGE;
+        }else{
+            if(page < MIN_PAGE) throw new InvalidInputException(INVALID_PAGE_NUMBER, PAGE_NUMBER_INVALID_CODE);
+
+            this.page = page;
         }
-        if(page < 0){
-            throw new InvalidInputException(PaginationExceptionCode.INVALID_PAGE_NUMBER.getMessage(), PaginationExceptionCode.INVALID_PAGE_NUMBER.getCode());
-        }
-        this.page = page;
     }
 
     public int getSize() {
@@ -37,12 +40,12 @@ public class Pagination {
     }
 
     public void setSize(Integer size) {
-        if(InputValidation.isNull(size)){
-            throw new InvalidInputException(PaginationExceptionCode.NULL_PAGE_SIZE.getMessage(), PaginationExceptionCode.NULL_PAGE_SIZE.getCode());
+        if(size == null){
+            this.size = DEFAULT_SIZE;
+        }else{
+            if(size < MIN_PAGE_SIZE || size > MAX_PAGE_SIZE) throw new InvalidInputException(INVALID_PAGE_SIZE, PAGE_SIZE_INVALID_CODE);
+
+            this.size = size;
         }
-        if(size <= 0){
-            throw new InvalidInputException(PaginationExceptionCode.INVALID_PAGE_SIZE.getMessage(), PaginationExceptionCode.INVALID_PAGE_SIZE.getCode());
-        }
-        this.size = size;
     }
 }

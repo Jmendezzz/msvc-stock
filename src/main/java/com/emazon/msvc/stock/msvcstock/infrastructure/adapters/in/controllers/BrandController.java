@@ -1,10 +1,10 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
-import com.emazon.msvc.stock.msvcstock.application.services.BrandService;
+import com.emazon.msvc.stock.msvcstock.application.handlers.BrandHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Tag(name = "Brand Controller", description = "Brand Management")
 public class BrandController {
-  private final BrandService brandService;
+  private final BrandHandler brandHandler;
 
   @PostMapping("/create")
   @Operation(
@@ -34,7 +35,7 @@ public class BrandController {
                   description = "Brand information, name and description",
                   required = true,
                   content = @Content(
-                          schema = @Schema(implementation = CreateBrandDto.class)
+                          schema = @Schema(implementation = CreateBrandRequestDto.class)
                   )
           )
   )
@@ -44,7 +45,7 @@ public class BrandController {
                           responseCode = "201",
                           description = "Brand created successfully",
                           content = @Content(
-                                  schema = @Schema(implementation = BrandDto.class)
+                                  schema = @Schema(implementation = BrandResponseDto.class)
                           )
                   ),
                   @ApiResponse(
@@ -53,9 +54,9 @@ public class BrandController {
                   )
           }
   )
-  public ResponseEntity<BrandDto> createBrand(@RequestBody CreateBrandDto createBrandDto) {
+  public ResponseEntity<BrandResponseDto> createBrand(@Valid @RequestBody CreateBrandRequestDto createBrandRequestDto) {
     return new ResponseEntity<>(
-            brandService.createBrand(createBrandDto),
+            brandHandler.createBrand(createBrandRequestDto),
             HttpStatus.CREATED
     );
   }
@@ -95,10 +96,10 @@ public class BrandController {
   )
 
   @GetMapping
-  public ResponseEntity<Paginated<BrandDto>> retrieveBrands(
-          @ModelAttribute PaginationDto pagination,
-          @ModelAttribute SortingDto sorting
+  public ResponseEntity<Paginated<BrandResponseDto>> retrieveBrands(
+          @Valid @ModelAttribute PaginationDto pagination,
+          @Valid @ModelAttribute SortingDto sorting
   ) {
-    return ResponseEntity.ok(brandService.retrieveBrands(pagination,sorting));
+    return ResponseEntity.ok(brandHandler.retrieveBrands(pagination,sorting));
   }
 }

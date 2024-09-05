@@ -3,13 +3,14 @@ package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.mappers;
 import com.emazon.msvc.stock.msvcstock.domain.models.Article;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.entities.ArticleEntity;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {DboBrandMapper.class, DboCategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {DboBrandMapper.class, DboCategoryMapper.class},injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface DboArticleMapper {
 
   Article toDomain(ArticleEntity articleEntity);

@@ -5,9 +5,4 @@ public record SortingDto(
         String direction
 ) {
 
-  public SortingDto {
-    if (direction == null || direction.isBlank()) {
-      direction = "asc";
-    }
-  }
 }
