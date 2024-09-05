@@ -5,8 +5,8 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
 import com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingConstant;
 
-import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingValidationCode.SORTING_INVALID_DIRECTION;
-import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingValidationMessage.SORTING_INVALID_DIRECTION_CODE;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingValidationCode.SORTING_INVALID_DIRECTION_CODE;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingValidationMessage.SORTING_INVALID_DIRECTION;
 
 public class Sorting {
     private String sortBy;

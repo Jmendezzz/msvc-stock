@@ -8,17 +8,11 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.ArticleRepo
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.entities.ArticleEntity;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.mappers.DboArticleMapper;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.jpa.JpaArticleRepository;
-import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.utils.constants.SortingField;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.utils.constants.SortingField.ARTICLE_SORTING_FIELDS;
 import static com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.utils.constants.SortingField.ARTICLE_SORT_BY_DEFAULT_FIELD;
