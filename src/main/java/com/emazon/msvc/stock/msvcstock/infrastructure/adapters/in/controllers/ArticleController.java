@@ -89,7 +89,7 @@ public class ArticleController {
   )
   @GetMapping()
   public ResponseEntity<Paginated<ListArticleResponseDto>> retrieveArticles(
-          @ModelAttribute PaginationDto pagination,
+          @Valid @ModelAttribute PaginationDto pagination,
           @Valid @ModelAttribute SortingDto sorting
           ){
     return new ResponseEntity<>(

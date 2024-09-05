@@ -97,7 +97,7 @@ public class BrandController {
 
   @GetMapping
   public ResponseEntity<Paginated<BrandResponseDto>> retrieveBrands(
-          @ModelAttribute PaginationDto pagination,
+          @Valid @ModelAttribute PaginationDto pagination,
           @Valid @ModelAttribute SortingDto sorting
   ) {
     return ResponseEntity.ok(brandHandler.retrieveBrands(pagination,sorting));

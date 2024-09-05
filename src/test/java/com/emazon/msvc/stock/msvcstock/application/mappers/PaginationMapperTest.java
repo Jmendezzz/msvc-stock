@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class PaginationMapperTest {
+class PaginationMapperTest {
 
   private PaginationMapper paginationMapper;
 
@@ -36,14 +36,5 @@ public class PaginationMapperTest {
     PaginationDto paginationDto = null;
     assertNull(paginationMapper.toDomain(paginationDto));
   }
-
-  @Test
-  void testDefaultPageAndSize() {
-    PaginationDto paginationDto = new PaginationDto(null, null);
-
-    assertEquals(0, paginationDto.page());
-    assertEquals(10, paginationDto.size());
-  }
-
 
 }

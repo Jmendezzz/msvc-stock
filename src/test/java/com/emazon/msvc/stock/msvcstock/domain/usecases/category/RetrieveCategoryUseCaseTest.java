@@ -18,6 +18,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +40,7 @@ class RetrieveCategoryUseCaseTest {
 
     Paginated<Category> expectedResult = new Paginated<Category>(Collections.emptyList(), 0L,0L,0L);
 
-    when(retrieveCategoryUseCase.retrieveCategories(expectedPagination, expectedSorting)).thenReturn(expectedResult);
+    when(categoryRepository.findAll(any(Pagination.class), any(Sorting.class))).thenReturn(expectedResult);
 
     Paginated<Category> actualResult = retrieveCategoryUseCase.retrieveCategories(expectedPagination, expectedSorting);
 
@@ -54,7 +55,7 @@ class RetrieveCategoryUseCaseTest {
     Category category = new Category(1L, "categoryName", "categoryDescription");
     Paginated<Category> expectedResult = new Paginated<Category>(Collections.singletonList(category), 0L,1L,1L);
 
-    when(retrieveCategoryUseCase.retrieveCategories(expectedPagination, expectedSorting)).thenReturn(expectedResult);
+    when(categoryRepository.findAll(any(Pagination.class), any(Sorting.class))).thenReturn(expectedResult);
 
     Paginated<Category> actualResult = retrieveCategoryUseCase.retrieveCategories(expectedPagination, expectedSorting);
 

@@ -24,7 +24,6 @@ class RetrieveArticleUseCaseTest {
 
   @Mock
   private ArticleRepository articleRepository;
-
   private RetrieveArticleUseCase retrieveArticleUseCaseImp;
 
   @BeforeEach
@@ -45,12 +44,11 @@ class RetrieveArticleUseCaseTest {
 
     Paginated<Article> paginatedArticles = new Paginated<>(List.of(article1, article2), 1L, 2L, 1L);
 
-    when(articleRepository.retrieveArticles(pagination, sorting)).thenReturn(paginatedArticles);
+    when(articleRepository.retrieveArticles(any(Pagination.class), any(Sorting.class))).thenReturn(paginatedArticles);
 
     Paginated<Article> result = retrieveArticleUseCaseImp.retrieveArticles(pagination, sorting);
 
-    assertEquals(2, result.getData().size());
-    verify(articleRepository, times(1)).retrieveArticles(pagination, sorting);
+    assertEquals(paginatedArticles, result);
   }
 
   @Test

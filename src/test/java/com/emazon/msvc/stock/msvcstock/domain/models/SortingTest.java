@@ -1,13 +1,11 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
-import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
-import org.junit.jupiter.api.Assertions;
+import com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingConstant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SortingTest {
 
@@ -27,20 +25,20 @@ class SortingTest {
   }
   @Test
   void testSetNullSortBy(){
-    assertThrows(InvalidInputException.class, () -> sorting.setSortBy(null));
-  }
-  @Test
-  void testSetEmptySortBy(){
-    assertThrows(InvalidInputException.class, () -> sorting.setSortBy(""));
+    sorting.setSortBy(null);
+    assertNull(sorting.getSortBy());
+
   }
 
   @Test
-  void testSetNullDirection(){
-    assertThrows(InvalidInputException.class, () -> sorting.setDirection(null));
+  void testSetNullDefaultDirection(){
+    sorting.setDirection(null);
+    assertEquals(SortingConstant.SORTING_DEFAULT_DIRECTION.name() , sorting.getDirection().name());
   }
   @Test
-  void testSetEmptyDirection(){
-    assertThrows(InvalidInputException.class, () -> sorting.setDirection(""));
+  void testSetEmptyDefaultDirection(){
+    sorting.setDirection("");
+    assertEquals(SortingConstant.SORTING_DEFAULT_DIRECTION.name() , sorting.getDirection().name());
   }
   @Test
   void testSetInvalidDirection(){
