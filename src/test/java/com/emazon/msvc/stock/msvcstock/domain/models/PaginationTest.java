@@ -2,11 +2,12 @@ package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
+import com.emazon.msvc.stock.msvcstock.domain.utils.constants.pagination.PaginationConstant;
+import com.emazon.msvc.stock.msvcstock.domain.utils.constants.pagination.PaginationValidationConstant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PaginationTest {
   private Pagination pagination;
@@ -25,8 +26,10 @@ class PaginationTest {
   }
 
   @Test
-  void testSetNullPage(){
-    assertThrows(InvalidInputException.class,() -> pagination.setPage(null));
+  void testSetDefaultPage(){
+    Integer defaultPage = PaginationConstant.DEFAULT_PAGE;
+    pagination.setPage(null);
+    assertEquals(defaultPage,pagination.getPage());
   }
   @Test
   void testSetNegativePage(){
@@ -34,8 +37,11 @@ class PaginationTest {
   }
 
   @Test
-  void testSetNullSize(){
-    assertThrows(InvalidInputException.class,() -> pagination.setSize(null));
+  void testSetDefaultSize(){
+    Integer defaultSize = PaginationConstant.DEFAULT_SIZE;
+    pagination.setSize(null);
+    assertEquals(defaultSize,pagination.getSize());
+
   }
   @Test
   void testSetNegativeSize(){

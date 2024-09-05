@@ -1,8 +1,11 @@
 package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.brand.BrandExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
+
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.brand.BrandValidationCode.*;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.brand.BrandValidationConstant.*;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.brand.BrandValidationMessage.*;
 
 public class Brand {
   private Long id;
@@ -33,10 +36,10 @@ public class Brand {
 
   public void setName(String name) {
     if (InputValidation.isNullOrEmpty(name)) {
-      throw new InvalidInputException(BrandExceptionCode.EMPTY_NAME.getMessage(), BrandExceptionCode.EMPTY_NAME.getCode());
+      throw new InvalidInputException(BRAND_NAME_REQUIRED, BRAND_NAME_REQUIRED_CODE);
     }
-    if (InputValidation.isInvalidLength(name, 3, 50)) {
-      throw new InvalidInputException(BrandExceptionCode.INVALID_NAME_LENGTH.getMessage(), BrandExceptionCode.INVALID_NAME_LENGTH.getCode());
+    if (InputValidation.isInvalidLength(name, BRAND_NAME_MIN_LENGTH, BRAND_NAME_MAX_LENGTH)) {
+      throw new InvalidInputException(BRAND_NAME_INVALID_LENGTH, BRAND_NAME_INVALID_LENGTH_CODE);
     }
     this.name = name;
   }
@@ -47,10 +50,10 @@ public class Brand {
 
   public void setDescription(String description) {
     if (InputValidation.isNullOrEmpty(description)) {
-      throw new InvalidInputException(BrandExceptionCode.EMPTY_DESCRIPTION.getMessage(), BrandExceptionCode.EMPTY_DESCRIPTION.getCode());
+      throw new InvalidInputException(BRAND_DESCRIPTION_REQUIRED, BRAND_DESCRIPTION_REQUIRED_CODE);
     }
-    if (InputValidation.isInvalidLength(description, 3, 120)) {
-      throw new InvalidInputException(BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getMessage(), BrandExceptionCode.INVALID_DESCRIPTION_LENGTH.getCode());
+    if (InputValidation.isInvalidLength(description, BRAND_DESCRIPTION_MIN_LENGTH, BRAND_DESCRIPTION_MAX_LENGTH)) {
+      throw new InvalidInputException(BRAND_DESCRIPTION_INVALID_LENGTH, BRAND_DESCRIPTION_INVALID_LENGTH_CODE);
     }
     this.description = description;
   }

@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.handlers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.CategoryMapper;
@@ -53,19 +53,19 @@ class CategoryHandlerTest {
 
   @Test
   void createCategoryTest() {
-    CreateCategoryDto createCategoryDto = new CreateCategoryDto("categoryName", "categoryDescription");
+    CreateCategoryRequestDto createCategoryRequestDto = new CreateCategoryRequestDto("categoryName", "categoryDescription");
     Category expectedCategory = new Category(1L, "categoryName", "categoryDescription");
-    CategoryDto expectedResult = new CategoryDto(1L, "categoryName", "categoryDescription");
+    CategoryResponseDto expectedResult = new CategoryResponseDto(1L, "categoryName", "categoryDescription");
 
-    when(mapper.toDomain(createCategoryDto)).thenReturn(new Category(null, createCategoryDto.name(), createCategoryDto.description()));
-    when(createCategoryUseCase.create(mapper.toDomain(createCategoryDto))).thenReturn(expectedCategory);
+    when(mapper.toDomain(createCategoryRequestDto)).thenReturn(new Category(null, createCategoryRequestDto.name(), createCategoryRequestDto.description()));
+    when(createCategoryUseCase.create(mapper.toDomain(createCategoryRequestDto))).thenReturn(expectedCategory);
     when(mapper.toDto(expectedCategory)).thenReturn(expectedResult);
 
-    CategoryDto categoryCreated = categoryHandler.create(createCategoryDto);
+    CategoryResponseDto categoryCreated = categoryHandler.create(createCategoryRequestDto);
 
     assertEquals(expectedResult, categoryCreated);
 
-    verify(createCategoryUseCase, times(1)).create(mapper.toDomain(createCategoryDto));
+    verify(createCategoryUseCase, times(1)).create(mapper.toDomain(createCategoryRequestDto));
     verify(mapper, times(1)).toDto(expectedCategory);
   }
 
@@ -83,16 +83,16 @@ class CategoryHandlerTest {
     Paginated<Category> paginatedCategories = new Paginated<>(List.of(category1, category2), 0L, 2L, 1L);
 
     // Prepare expected result
-    CategoryDto categoryDto1 = new CategoryDto(1L, "First", "categoryDescription1");
-    CategoryDto categoryDto2 = new CategoryDto(2L, "Second", "categoryDescription2");
-    Paginated<CategoryDto> expectedPaginatedCategoryDto = new Paginated<>(List.of(categoryDto1, categoryDto2), 0L, 2L, 1L);
+    CategoryResponseDto categoryResponseDto1 = new CategoryResponseDto(1L, "First", "categoryDescription1");
+    CategoryResponseDto categoryResponseDto2 = new CategoryResponseDto(2L, "Second", "categoryDescription2");
+    Paginated<CategoryResponseDto> expectedPaginatedCategoryDto = new Paginated<>(List.of(categoryResponseDto1, categoryResponseDto2), 0L, 2L, 1L);
 
     when(paginationMapper.toDomain(paginationDto)).thenReturn(pagination);
     when(sortingMapper.toDomain(sortingDto)).thenReturn(sorting);
     when(retrieveCategoriesUseCase.retrieveCategories(pagination, sorting)).thenReturn(paginatedCategories);
     when(mapper.toDtoPaginated(paginatedCategories)).thenReturn(expectedPaginatedCategoryDto);
 
-    Paginated<CategoryDto> result = categoryHandler.retrieveCategories(paginationDto, sortingDto);
+    Paginated<CategoryResponseDto> result = categoryHandler.retrieveCategories(paginationDto, sortingDto);
 
     assertEquals(expectedPaginatedCategoryDto, result);
     assertEquals(1L, result.getData().get(0).id());

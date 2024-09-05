@@ -19,8 +19,8 @@ public class RetrieveArticleUseCaseImp implements RetrieveArticleUseCase {
   }
   @Override
   public Paginated<Article> retrieveArticles(Pagination pagination, Sorting sorting){
-    sortingValidation.isValidSortBy(sorting.getSortBy());
+    Sorting validatedSorting = sortingValidation.validateSorting(sorting);
 
-    return articleRepository.retrieveArticles(pagination, sorting);
+    return articleRepository.retrieveArticles(pagination, validatedSorting);
   }
 }

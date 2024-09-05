@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.handlers.imp;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.BrandMapper;
@@ -24,14 +24,14 @@ public class BrandHandlerImp implements BrandHandler {
   private final PaginationMapper paginationMapper;
   private final SortingMapper sortingMapper;
   @Override
-  public BrandDto createBrand(CreateBrandDto createBrandDto) {
-    Brand brandCreated = createBrandUseCase.create(mapper.toDomain(createBrandDto));
+  public BrandResponseDto createBrand(CreateBrandRequestDto createBrandRequestDto) {
+    Brand brandCreated = createBrandUseCase.create(mapper.toDomain(createBrandRequestDto));
 
     return mapper.toDto(brandCreated);
   }
 
   @Override
-  public Paginated<BrandDto> retrieveBrands(PaginationDto paginationDto, SortingDto sortingDto) {
+  public Paginated<BrandResponseDto> retrieveBrands(PaginationDto paginationDto, SortingDto sortingDto) {
     Paginated<Brand> brands = retrieveBrandUseCase.retrieveBrands(
             paginationMapper.toDomain(paginationDto),
             sortingMapper.toDomain(sortingDto)

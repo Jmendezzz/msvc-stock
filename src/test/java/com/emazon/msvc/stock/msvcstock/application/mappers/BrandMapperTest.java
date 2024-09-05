@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.application.mappers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.brand.CreateBrandRequestDto;
 import com.emazon.msvc.stock.msvcstock.domain.models.Brand;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,26 +27,26 @@ class BrandMapperTest {
 
   @Test
   void testMapBrandToBrandDto() {
-    BrandDto expectedBrandDto = new BrandDto(1L, "brandName", "brandDescription");
+    BrandResponseDto expectedBrandResponseDto = new BrandResponseDto(1L, "brandName", "brandDescription");
     Brand brand = new Brand(1L, "brandName", "brandDescription");
-    BrandDto brandDto = brandMapper.toDto(brand);
+    BrandResponseDto brandResponseDto = brandMapper.toDto(brand);
 
-    assertEquals(expectedBrandDto.id(), brandDto.id());
-    assertEquals(expectedBrandDto.name(), brandDto.name());
-    assertEquals(expectedBrandDto.description(), brandDto.description());
+    assertEquals(expectedBrandResponseDto.id(), brandResponseDto.id());
+    assertEquals(expectedBrandResponseDto.name(), brandResponseDto.name());
+    assertEquals(expectedBrandResponseDto.description(), brandResponseDto.description());
   }
   @Test
   void testMapNullBrandToBrandDto() {
     Brand brand = null;
-    BrandDto brandDto = brandMapper.toDto(brand);
-    assertNull(brandDto);
+    BrandResponseDto brandResponseDto = brandMapper.toDto(brand);
+    assertNull(brandResponseDto);
   }
 
   @Test
   void testCreateBrandDtoToBrand() {
     Brand expectedBrand = new Brand(null, "brandName", "brandDescription");
-    CreateBrandDto createBrandDto = new CreateBrandDto("brandName", "brandDescription");
-    Brand brand = brandMapper.toDomain(createBrandDto);
+    CreateBrandRequestDto createBrandRequestDto = new CreateBrandRequestDto("brandName", "brandDescription");
+    Brand brand = brandMapper.toDomain(createBrandRequestDto);
 
     assertEquals(expectedBrand.getId(), brand.getId());
     assertEquals(expectedBrand.getName(), brand.getName());
@@ -54,48 +54,48 @@ class BrandMapperTest {
   }
   @Test
   void testCreateNullBrandDtoToBrand() {
-    CreateBrandDto createBrandDto = null;
-    Brand brand = brandMapper.toDomain(createBrandDto);
+    CreateBrandRequestDto createBrandRequestDto = null;
+    Brand brand = brandMapper.toDomain(createBrandRequestDto);
     assertNull(brand);
   }
 
   @Test
   void testListBrandToBrandDto() {
-    BrandDto expectedBrandDto = new BrandDto(1L, "brandName", "brandDescription");
+    BrandResponseDto expectedBrandResponseDto = new BrandResponseDto(1L, "brandName", "brandDescription");
     Brand brand = new Brand(1L, "brandName", "brandDescription");
     List<Brand> brands = new ArrayList<>();
     brands.add(brand);
-    List<BrandDto> brandDtos = brandMapper.toDto(brands);
+    List<BrandResponseDto> brandResponseDtos = brandMapper.toDto(brands);
 
-    assertEquals(expectedBrandDto.id(), brandDtos.get(0).id());
-    assertEquals(expectedBrandDto.name(), brandDtos.get(0).name());
-    assertEquals(expectedBrandDto.description(), brandDtos.get(0).description());
+    assertEquals(expectedBrandResponseDto.id(), brandResponseDtos.get(0).id());
+    assertEquals(expectedBrandResponseDto.name(), brandResponseDtos.get(0).name());
+    assertEquals(expectedBrandResponseDto.description(), brandResponseDtos.get(0).description());
   }
   @Test
   void testListNullBrandToBrandDto() {
     List<Brand> brands = null;
-    List<BrandDto> brandDtos = brandMapper.toDto(brands);
-    assertNull(brandDtos);
+    List<BrandResponseDto> brandResponseDtos = brandMapper.toDto(brands);
+    assertNull(brandResponseDtos);
   }
 
   @Test
   void testPaginatedBrandToPaginatedBrandDto() {
-    BrandDto expectedBrandDto = new BrandDto(1L, "brandName", "brandDescription");
+    BrandResponseDto expectedBrandResponseDto = new BrandResponseDto(1L, "brandName", "brandDescription");
     Brand brand = new Brand(1L, "brandName", "brandDescription");
     List<Brand> brands = new ArrayList<>();
     brands.add(brand);
     Paginated<Brand> paginatedBrands = new Paginated<>(brands, 0L, 1L, 1L);
-    Paginated<BrandDto> paginatedBrandDtos = brandMapper.toDtoPaginated(paginatedBrands);
+    Paginated<BrandResponseDto> paginatedBrandDtos = brandMapper.toDtoPaginated(paginatedBrands);
 
-    assertEquals(expectedBrandDto.id(), paginatedBrandDtos.getData().get(0).id());
-    assertEquals(expectedBrandDto.name(), paginatedBrandDtos.getData().get(0).name());
-    assertEquals(expectedBrandDto.description(), paginatedBrandDtos.getData().get(0).description());
+    assertEquals(expectedBrandResponseDto.id(), paginatedBrandDtos.getData().get(0).id());
+    assertEquals(expectedBrandResponseDto.name(), paginatedBrandDtos.getData().get(0).name());
+    assertEquals(expectedBrandResponseDto.description(), paginatedBrandDtos.getData().get(0).description());
   }
 
   @Test
   void testPaginatedNullBrandToPaginatedBrandDto() {
     Paginated<Brand> paginatedBrands = null;
-    Paginated<BrandDto> paginatedBrandDtos = brandMapper.toDtoPaginated(paginatedBrands);
+    Paginated<BrandResponseDto> paginatedBrandDtos = brandMapper.toDtoPaginated(paginatedBrands);
     assertNull(paginatedBrandDtos);
   }
 }

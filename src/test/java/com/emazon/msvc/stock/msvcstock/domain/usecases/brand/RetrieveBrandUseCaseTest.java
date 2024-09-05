@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +41,7 @@ class RetrieveBrandUseCaseTest {
 
     Paginated<Brand> expectedResult = new Paginated<Brand>(Collections.emptyList(), 0L,0L,0L);
 
-    when(retrieveBrandUseCase.retrieveBrands(expectedPagination, expectedSorting)).thenReturn(expectedResult);
+    when(brandRepository.findAll(any(Pagination.class), any(Sorting.class))).thenReturn(expectedResult);
 
     Paginated<Brand> actualResult = retrieveBrandUseCase.retrieveBrands(expectedPagination, expectedSorting);
 
@@ -50,15 +51,15 @@ class RetrieveBrandUseCaseTest {
 
   @Test
   void getPaginatedBrandsWithResultsTest() {
-    Pagination expectedPagination = new Pagination(0, 10);
-    Sorting expectedSorting = new Sorting("name", "ASC");
+    Pagination pagination = new Pagination(1, 10);
+    Sorting sorting = new Sorting("name", "ASC");
 
     Brand brand = new Brand(1L, "brandName", "brandDescription");
-    Paginated<Brand> expectedResult = new Paginated<Brand>(Collections.singletonList(brand), 0L,1L,1L);
+    Paginated<Brand> expectedResult = new Paginated<Brand>(Collections.singletonList(brand), 1L,1L,1L);
 
-    when(retrieveBrandUseCase.retrieveBrands(expectedPagination, expectedSorting)).thenReturn(expectedResult);
+    when(brandRepository.findAll(any(Pagination.class), any(Sorting.class))).thenReturn(expectedResult);
 
-    Paginated<Brand> actualResult = retrieveBrandUseCase.retrieveBrands(expectedPagination, expectedSorting);
+    Paginated<Brand> actualResult = retrieveBrandUseCase.retrieveBrands(pagination, sorting);
 
     assertEquals(expectedResult, actualResult);
   }

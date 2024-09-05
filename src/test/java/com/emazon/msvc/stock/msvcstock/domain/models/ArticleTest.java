@@ -4,6 +4,7 @@ import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -82,7 +83,12 @@ class ArticleTest {
   }
   @Test
   void testSetNullCategories(){
-    assertThrows(InvalidInputException.class,() -> article.setCategories(null));
+    assertThrows(InvalidInputException.class,() -> article.setCategories((Set<Category>) null));
+  }
+  @Test
+  void testSetNullCategoryList(){
+    assertThrows(InvalidInputException.class,() -> article.setCategories((List<Category>) null));
+
   }
   @Test
   void testSetEmptyCategories(){

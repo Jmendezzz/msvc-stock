@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.category.CreateCategoryRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.handlers.CategoryHandler;
@@ -33,7 +33,7 @@ public class CategoryController {
                   description = "Category information, name and description",
                   required = true,
                   content = @Content(
-                          schema = @Schema(implementation = CreateCategoryDto.class)
+                          schema = @Schema(implementation = CreateCategoryRequestDto.class)
                   )
           )
   )
@@ -43,7 +43,7 @@ public class CategoryController {
                           responseCode = "201",
                           description = "Category created successfully",
                           content = @Content(
-                                  schema = @Schema(implementation = CategoryDto.class)
+                                  schema = @Schema(implementation = CategoryResponseDto.class)
                           )
                   ),
                   @ApiResponse(
@@ -53,9 +53,9 @@ public class CategoryController {
           }
   )
   @PostMapping("/create")
-  public ResponseEntity<CategoryDto> createCategory(@RequestBody CreateCategoryDto createCategoryDto) {
+  public ResponseEntity<CategoryResponseDto> createCategory(@Valid @RequestBody CreateCategoryRequestDto createCategoryRequestDto) {
     return new ResponseEntity<>(
-            categoryHandler.create(createCategoryDto),
+            categoryHandler.create(createCategoryRequestDto),
             HttpStatus.CREATED
     );
   }
@@ -95,12 +95,12 @@ public class CategoryController {
 
   )
   @GetMapping
-  public ResponseEntity<Paginated<CategoryDto>> retrieveCategories(
+  public ResponseEntity<Paginated<CategoryResponseDto>> retrieveCategories(
           @Valid @ModelAttribute PaginationDto pagination,
           @Valid @ModelAttribute SortingDto sorting
   ) {
 
-    Paginated<CategoryDto> paginatedCategories = categoryHandler.retrieveCategories(pagination, sorting);
+    Paginated<CategoryResponseDto> paginatedCategories = categoryHandler.retrieveCategories(pagination, sorting);
 
     return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
   }

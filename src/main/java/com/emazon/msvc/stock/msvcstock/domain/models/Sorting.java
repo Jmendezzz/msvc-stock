@@ -2,8 +2,11 @@ package com.emazon.msvc.stock.msvcstock.domain.models;
 
 import com.emazon.msvc.stock.msvcstock.domain.enums.SortDirection;
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.sorting.SortingExceptionCode;
 import com.emazon.msvc.stock.msvcstock.domain.utils.InputValidation;
+import com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingConstant;
+
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingValidationCode.SORTING_INVALID_DIRECTION_CODE;
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.sorting.SortingValidationMessage.SORTING_INVALID_DIRECTION;
 
 public class Sorting {
     private String sortBy;
@@ -21,9 +24,6 @@ public class Sorting {
     }
 
     public void setSortBy(String sortBy) {
-        if(InputValidation.isNullOrEmpty(sortBy)){
-            throw new InvalidInputException(SortingExceptionCode.EMPTY_SORT_BY.getMessage(), SortingExceptionCode.EMPTY_SORT_BY.getCode());
-        }
         this.sortBy = sortBy;
     }
     public SortDirection getDirection() {
@@ -31,9 +31,14 @@ public class Sorting {
     }
 
     public void setDirection(String direction) {
-        if(!SortDirection.contains(direction)){
-            throw new InvalidInputException(SortingExceptionCode.INVALID_SORT_DIRECTION.getMessage(), SortingExceptionCode.INVALID_SORT_DIRECTION.getCode());
+
+        if(InputValidation.isNullOrEmpty(direction)){
+            this.direction = SortingConstant.SORTING_DEFAULT_DIRECTION;
+        }else{
+            if(!SortDirection.contains(direction)){
+                throw new InvalidInputException(SORTING_INVALID_DIRECTION, SORTING_INVALID_DIRECTION_CODE);
+            }
+            this.direction = SortDirection.valueOf(direction);
         }
-        this.direction = SortDirection.valueOf(direction);
     }
 }

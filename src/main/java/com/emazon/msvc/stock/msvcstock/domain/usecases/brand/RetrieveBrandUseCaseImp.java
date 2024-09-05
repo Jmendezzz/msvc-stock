@@ -22,8 +22,9 @@ public class RetrieveBrandUseCaseImp implements RetrieveBrandUseCase {
 
   @Override
   public Paginated<Brand> retrieveBrands(Pagination pagination, Sorting sort) {
-    brandSortingValidation.isValidSortBy(sort.getSortBy());
-    return repository.findAll(pagination, sort);
+    Sorting validatedSorting = brandSortingValidation.validateSorting(sort);
+
+    return repository.findAll(pagination, validatedSorting);
   }
 
   @Override
