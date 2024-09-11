@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import static com.emazon.msvc.stock.msvcstock.infrastructure.utils.constants.SecurityConstant.USERNAME_NOT_FOUND_MESSAGE;
+
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImp implements UserDetailsService {
@@ -18,7 +20,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
   public UserDetails loadUserByUsername(String token) throws UsernameNotFoundException {
     User user = userClient.getUserDetails(token);
     if (user == null) {
-      throw new UsernameNotFoundException("User not found with token: " + token);
+      throw new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE);
     }
     return new CustomUserDetails(user);
   }

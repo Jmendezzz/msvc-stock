@@ -10,8 +10,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
-  private String email;
-  private Collection<? extends GrantedAuthority> authorities;
+  private final String email;
+  private final Collection<? extends GrantedAuthority> authorities;
 
   public CustomUserDetails(User user) {
     this.email = user.getEmail();
