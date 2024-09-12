@@ -17,8 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import static com.emazon.msvc.stock.msvcstock.infrastructure.utils.constants.SecurityConstant.ADMIN_ROLE;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -32,12 +30,9 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
-                      authorizeRequests.requestMatchers("api/v1/categories/create").hasRole(ADMIN_ROLE);
-                      authorizeRequests.requestMatchers("api/v1/brands/create").hasRole(ADMIN_ROLE);
-                      authorizeRequests.requestMatchers("api/v1/articles/create").hasRole(ADMIN_ROLE);
                       authorizeRequests.requestMatchers(HttpMethod.GET, "api/v1/categories").permitAll();
-                      authorizeRequests.requestMatchers(HttpMethod.GET, "api/v1/brands").permitAll();
                       authorizeRequests.requestMatchers(HttpMethod.GET, "api/v1/articles").permitAll();
+                      authorizeRequests.requestMatchers(HttpMethod.GET, "api/v1/brands").permitAll();
                       authorizeRequests.anyRequest().authenticated();
                     }
             )
