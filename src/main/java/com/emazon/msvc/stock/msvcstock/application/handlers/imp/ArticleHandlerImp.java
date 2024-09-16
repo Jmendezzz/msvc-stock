@@ -13,6 +13,7 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Article;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.CreateArticleUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.RetrieveArticleUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.UpdateArticleUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class ArticleHandlerImp implements ArticleHandler {
   private final CreateArticleUseCase createArticleUseCase;
   private final RetrieveArticleUseCase retrieveArticleUseCase;
+  private final UpdateArticleUseCase updateArticleUseCase;
   private final ArticleMapper mapper;
   private final PaginationMapper paginationMapper;
   private final SortingMapper sortingMapper;
@@ -38,5 +40,10 @@ public class ArticleHandlerImp implements ArticleHandler {
     );
     return mapper.toDtoPaginated(articles);
 
+  }
+
+  @Override
+  public void updateArticleStock(Long articleId, Integer quantity) {
+    updateArticleUseCase.updateArticleStock(articleId, quantity);
   }
 }

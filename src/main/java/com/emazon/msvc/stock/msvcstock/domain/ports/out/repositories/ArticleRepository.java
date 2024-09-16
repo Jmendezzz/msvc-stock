@@ -5,7 +5,10 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 
+import java.util.Optional;
+
 public interface ArticleRepository {
   Article save(Article article);
   Paginated<Article> retrieveArticles(Pagination pagination, Sorting sorting);
+  Optional<Article> findById(Long articleId);
 }

@@ -4,6 +4,7 @@ package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.UpdateArticleStockRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
@@ -101,5 +102,14 @@ public class ArticleController {
             ),
             HttpStatus.OK
     );
+  }
+
+  @PatchMapping("/{articleId}/stock")
+  public ResponseEntity<Void> updateArticleStock(
+          @PathVariable Long articleId,
+          @Valid @RequestBody UpdateArticleStockRequestDto updateArticleStockRequestDto
+          ){
+    articleHandler.updateArticleStock(articleId, updateArticleStockRequestDto.quantity());
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }
