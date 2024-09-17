@@ -23,4 +23,9 @@ public class RetrieveArticleUseCaseImp implements RetrieveArticleUseCase {
 
     return articleRepository.retrieveArticles(pagination, validatedSorting);
   }
+
+  @Override
+  public boolean articleExists(Long articleId) {
+    return articleRepository.existsById(articleId);
+  }
 }

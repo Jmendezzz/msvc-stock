@@ -18,7 +18,7 @@ public class UserFeignClientAdapter implements UserClient {
   public User getUserDetails(String token) {
     try{
       return userFeignClient.getUserDetails(token);
-    } catch (FeignException.BadRequest exception) {
+    } catch (FeignException exception) {
       logger.error(exception.getMessage());
       return null;
     }

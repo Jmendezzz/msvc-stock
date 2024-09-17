@@ -13,6 +13,8 @@ public class ArticleValidationMessage {
   public static final String ARTICLE_CATEGORIES_REQUIRED = "Article requires at least 1 category";
   public static final String ARTICLE_CATEGORIES_INVALID_LENGTH = "Article can have between 1 and 3 categories";
   public static final String ARTICLE_CATEGORIES_REPEATED = "Article categories cannot be repeated";
+  public static final String ARTICLE_STOCK_UPDATE_STOCK_AMOUNT_REQUIRED = "Stock amount is required";
+  public static final String ARTICLE_STOCK_UPDATE_STOCK_AMOUNT_INVALID = "Stock amount must be greater than 0";
 
 
   private ArticleValidationMessage() {}

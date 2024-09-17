@@ -4,6 +4,7 @@ package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.UpdateArticleStockRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
@@ -99,6 +100,24 @@ public class ArticleController {
                     pagination,
                     sorting
             ),
+            HttpStatus.OK
+    );
+  }
+
+  @PatchMapping("/{articleId}/stock")
+  @PreAuthorize("hasRole(@machineRole)")
+  public ResponseEntity<Void> updateArticleStock(
+          @PathVariable Long articleId,
+          @Valid @RequestBody UpdateArticleStockRequestDto updateArticleStockRequestDto
+          ){
+    articleHandler.updateArticleStock(articleId, updateArticleStockRequestDto.quantity());
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/{articleId}/exists")
+  public ResponseEntity<Boolean> articleExists(@PathVariable Long articleId){
+    return new ResponseEntity<>(
+            articleHandler.articleExists(articleId),
             HttpStatus.OK
     );
   }
