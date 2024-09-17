@@ -10,4 +10,6 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 public interface ArticleHandler {
   ArticleResponseDto createArticle(CreateArticleRequestDto articleDto);
   Paginated<ListArticleResponseDto> retrieveArticles(PaginationDto pagination, SortingDto sorting);
+  void updateArticleStock(Long articleId, Integer quantity);
+  boolean articleExists(Long articleId);
 }

@@ -25,3 +25,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+security:
+  machine:
+    key: ${MACHINE_KEY}
+    header: ${MACHINE_HEADER}

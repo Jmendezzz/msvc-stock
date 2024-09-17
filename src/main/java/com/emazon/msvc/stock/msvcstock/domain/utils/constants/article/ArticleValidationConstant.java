@@ -10,5 +10,6 @@ public class ArticleValidationConstant {
   public static final int ARTICLE_MIN_STOCK = 0;
   public static final int ARTICLE_MIN_CATEGORIES = 1;
   public static final int ARTICLE_MAX_CATEGORIES = 3;
+  public static final int ARTICLE_MIN_STOCK_UPDATE = 1;
   private ArticleValidationConstant() {}
 }

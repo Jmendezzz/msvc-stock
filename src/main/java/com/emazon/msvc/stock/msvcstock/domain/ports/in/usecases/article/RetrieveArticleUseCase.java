@@ -8,4 +8,5 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 
 public interface RetrieveArticleUseCase {
   Paginated<Article> retrieveArticles(Pagination pagination, Sorting sorting);
+  boolean articleExists(Long articleId);
 }

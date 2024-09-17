@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 import static com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.utils.constants.SortingField.ARTICLE_SORTING_FIELDS;
 import static com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.utils.constants.SortingField.ARTICLE_SORT_BY_DEFAULT_FIELD;
 
@@ -41,6 +43,16 @@ public class ArticleRepositoryImp implements ArticleRepository {
     );
 
     return mapper.toDomainPaginated(jpaArticleRepository.findAll(pageable));
+  }
+
+  @Override
+  public Optional<Article> findById(Long articleId) {
+    return jpaArticleRepository.findById(articleId).map(mapper::toDomain);
+  }
+
+  @Override
+  public boolean existsById(Long articleId) {
+    return jpaArticleRepository.existsById(articleId);
   }
 
 }
