@@ -3,6 +3,7 @@ package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.security.conf
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.security.filters.CustomAccessDeniedHandler;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.security.filters.JwtAuthenticationEntryPoint;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.security.filters.JwtTokenValidatorFilter;
+import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.security.filters.MachineAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @AllArgsConstructor
 public class SecurityConfig {
   private final JwtTokenValidatorFilter jwtTokenValidationFilter;
+  private final MachineAuthenticationFilter machineAuthenticationFilter;
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -40,6 +42,7 @@ public class SecurityConfig {
               exceptionHandling.authenticationEntryPoint(new JwtAuthenticationEntryPoint());
               exceptionHandling.accessDeniedHandler(new CustomAccessDeniedHandler());
             })
+            .addFilterBefore(machineAuthenticationFilter, BasicAuthenticationFilter.class)
             .addFilterBefore(jwtTokenValidationFilter, BasicAuthenticationFilter.class)
             .build();
   }

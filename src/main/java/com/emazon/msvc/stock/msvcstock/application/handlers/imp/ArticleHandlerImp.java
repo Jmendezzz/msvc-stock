@@ -46,4 +46,9 @@ public class ArticleHandlerImp implements ArticleHandler {
   public void updateArticleStock(Long articleId, Integer quantity) {
     updateArticleUseCase.updateArticleStock(articleId, quantity);
   }
+
+  @Override
+  public boolean articleExists(Long articleId) {
+    return retrieveArticleUseCase.articleExists(articleId);
+  }
 }

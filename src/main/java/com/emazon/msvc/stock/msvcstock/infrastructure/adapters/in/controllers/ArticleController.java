@@ -105,11 +105,20 @@ public class ArticleController {
   }
 
   @PatchMapping("/{articleId}/stock")
+  @PreAuthorize("hasRole(@machineRole)")
   public ResponseEntity<Void> updateArticleStock(
           @PathVariable Long articleId,
           @Valid @RequestBody UpdateArticleStockRequestDto updateArticleStockRequestDto
           ){
     articleHandler.updateArticleStock(articleId, updateArticleStockRequestDto.quantity());
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @GetMapping("/{articleId}/exists")
+  public ResponseEntity<Boolean> articleExists(@PathVariable Long articleId){
+    return new ResponseEntity<>(
+            articleHandler.articleExists(articleId),
+            HttpStatus.OK
+    );
   }
 }

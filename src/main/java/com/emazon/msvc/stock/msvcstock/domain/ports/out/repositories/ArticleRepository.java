@@ -11,4 +11,5 @@ public interface ArticleRepository {
   Article save(Article article);
   Paginated<Article> retrieveArticles(Pagination pagination, Sorting sorting);
   Optional<Article> findById(Long articleId);
+  boolean existsById(Long articleId);
 }

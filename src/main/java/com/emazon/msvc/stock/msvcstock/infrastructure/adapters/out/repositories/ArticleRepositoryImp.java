@@ -50,4 +50,9 @@ public class ArticleRepositoryImp implements ArticleRepository {
     return jpaArticleRepository.findById(articleId).map(mapper::toDomain);
   }
 
+  @Override
+  public boolean existsById(Long articleId) {
+    return jpaArticleRepository.existsById(articleId);
+  }
+
 }
