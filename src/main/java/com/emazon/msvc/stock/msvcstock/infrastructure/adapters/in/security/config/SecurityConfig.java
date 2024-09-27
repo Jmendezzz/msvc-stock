@@ -33,7 +33,7 @@ public class SecurityConfig {
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
                       authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/categories").permitAll();
-                      authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/articles").permitAll();
+                      authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll();
                       authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/brands").permitAll();
                       authorizeRequests.anyRequest().authenticated();
                     }

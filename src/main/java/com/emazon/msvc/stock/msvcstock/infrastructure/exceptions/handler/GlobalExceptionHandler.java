@@ -1,7 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.handler;
 
 import com.emazon.msvc.stock.msvcstock.domain.exceptions.BusinessException;
-import com.emazon.msvc.stock.msvcstock.domain.exceptions.InvalidInputException;
+import com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.EntityNotFoundException;
 import com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +38,13 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ExceptionResponse> handleBusinessException(BusinessException ex) {
     ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(),ex.getCode(),ex.getMessage(),HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+    ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(),HttpStatus.NOT_FOUND.name(),ex.getMessage(),HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
 }

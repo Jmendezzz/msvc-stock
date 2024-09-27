@@ -6,9 +6,11 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleReq
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.UpdateArticleStockRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.searchcriteria.ArticleSearchCriteriaRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
+import com.emazon.msvc.stock.msvcstock.infrastructure.exceptions.EntityNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,6 +23,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.emazon.msvc.stock.msvcstock.domain.utils.constants.article.ArticleExceptionMessage.ARTICLE_NOT_FOUND;
 
 @RestController
 @RequestMapping("api/v1/articles")
@@ -90,16 +96,35 @@ public class ArticleController {
           }
 
   )
-  @GetMapping()
+  @GetMapping("/search")
   public ResponseEntity<Paginated<ListArticleResponseDto>> retrieveArticles(
           @Valid @ModelAttribute PaginationDto pagination,
-          @Valid @ModelAttribute SortingDto sorting
+          @Valid @ModelAttribute SortingDto sorting,
+          @ModelAttribute ArticleSearchCriteriaRequestDto searchCriteria
           ){
     return new ResponseEntity<>(
             articleHandler.retrieveArticles(
                     pagination,
-                    sorting
+                    sorting,
+                    searchCriteria
             ),
+            HttpStatus.OK
+    );
+  }
+
+  @GetMapping("/{articleId}")
+  public ResponseEntity<ArticleResponseDto> retrieveArticle(@PathVariable Long articleId){
+    ArticleResponseDto articleResponseDto =
+            articleHandler
+            .retrieveArticleById(articleId)
+            .orElseThrow(() ->  new EntityNotFoundException(ARTICLE_NOT_FOUND));
+
+    return new ResponseEntity<>(articleResponseDto, HttpStatus.OK);
+  }
+  @GetMapping("/batch")
+  public ResponseEntity<List<ArticleResponseDto>> retrieveArticlesByIds(@RequestParam List<Long> articleIds){
+    return new ResponseEntity<>(
+            articleHandler.retrieveArticlesByIds(articleIds),
             HttpStatus.OK
     );
   }
