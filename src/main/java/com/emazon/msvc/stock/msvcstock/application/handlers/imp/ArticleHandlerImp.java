@@ -4,9 +4,11 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseD
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.searchcriteria.ArticleSearchCriteriaRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.ArticleMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
+import com.emazon.msvc.stock.msvcstock.application.mappers.SearchCriteriaMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
 import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Article;
@@ -17,6 +19,9 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.UpdateAr
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class ArticleHandlerImp implements ArticleHandler {
@@ -26,6 +31,7 @@ public class ArticleHandlerImp implements ArticleHandler {
   private final ArticleMapper mapper;
   private final PaginationMapper paginationMapper;
   private final SortingMapper sortingMapper;
+  private final SearchCriteriaMapper searchCriteriaMapper;
 
   @Override
   public ArticleResponseDto createArticle(CreateArticleRequestDto articleDto) {
@@ -34,9 +40,9 @@ public class ArticleHandlerImp implements ArticleHandler {
   }
 
   @Override
-  public Paginated<ListArticleResponseDto> retrieveArticles(PaginationDto pagination, SortingDto sorting) {
+  public Paginated<ListArticleResponseDto> retrieveArticles(PaginationDto pagination, SortingDto sorting, ArticleSearchCriteriaRequestDto searchCriteria) {
     Paginated<Article> articles = retrieveArticleUseCase.retrieveArticles(
-            paginationMapper.toDomain(pagination), sortingMapper.toDomain(sorting)
+            paginationMapper.toDomain(pagination), sortingMapper.toDomain(sorting), searchCriteriaMapper.toDomain(searchCriteria)
     );
     return mapper.toDtoPaginated(articles);
 
@@ -50,5 +56,19 @@ public class ArticleHandlerImp implements ArticleHandler {
   @Override
   public boolean articleExists(Long articleId) {
     return retrieveArticleUseCase.articleExists(articleId);
+  }
+
+  @Override
+  public Optional<ArticleResponseDto> retrieveArticleById(Long articleId) {
+    return retrieveArticleUseCase.retrieveArticleById(articleId)
+            .map(mapper::toDto);
+  }
+
+  @Override
+  public List<ArticleResponseDto> retrieveArticlesByIds(List<Long> articleIds) {
+    return retrieveArticleUseCase.retrieveArticlesByIds(articleIds)
+            .stream()
+            .map(mapper::toDto)
+            .toList();
   }
 }
