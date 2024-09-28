@@ -44,9 +44,9 @@ class RetrieveArticleUseCaseTest {
 
     Paginated<Article> paginatedArticles = new Paginated<>(List.of(article1, article2), 1L, 2L, 1L);
 
-    when(articleRepository.retrieveArticles(any(Pagination.class), any(Sorting.class))).thenReturn(paginatedArticles);
+    when(articleRepository.retrieveArticles(any(Pagination.class), any(Sorting.class), any(ArticleSearchCriteria.class))).thenReturn(paginatedArticles);
 
-    Paginated<Article> result = retrieveArticleUseCaseImp.retrieveArticles(pagination, sorting);
+    Paginated<Article> result = retrieveArticleUseCaseImp.retrieveArticles(pagination, sorting, new ArticleSearchCriteria());
 
     assertEquals(paginatedArticles, result);
   }
@@ -56,15 +56,15 @@ class RetrieveArticleUseCaseTest {
     Pagination pagination = new Pagination(1, 10);
     Sorting sorting = new Sorting("invalid_field", "ASC");
 
-    assertThrows(InvalidSortByFieldException.class, () -> retrieveArticleUseCaseImp.retrieveArticles(pagination, sorting));
-    verify(articleRepository, times(0)).retrieveArticles(any(Pagination.class), any(Sorting.class));
+    assertThrows(InvalidSortByFieldException.class, () -> retrieveArticleUseCaseImp.retrieveArticles(pagination, sorting, new ArticleSearchCriteria()));
+    verify(articleRepository, times(0)).retrieveArticles(any(Pagination.class), any(Sorting.class), any(ArticleSearchCriteria.class));
   }
 
   @Test
   void retrieveArticlesWithInvalidDirectionExceptionTest() {
     assertThrows(InvalidInputException.class, () -> new Sorting("name", "invalid_direction"));
 
-    verify(articleRepository, times(0)).retrieveArticles(any(Pagination.class), any(Sorting.class));
+    verify(articleRepository, times(0)).retrieveArticles(any(Pagination.class), any(Sorting.class), any(ArticleSearchCriteria.class));
   }
 
 }
