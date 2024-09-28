@@ -34,6 +34,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorizeRequests -> {
                       authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/categories").permitAll();
                       authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll();
+                      authorizeRequests.requestMatchers("/api/v1/articles/search").permitAll();
                       authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/brands").permitAll();
                       authorizeRequests.anyRequest().authenticated();
                     }

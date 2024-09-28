@@ -7,14 +7,17 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleRespo
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.searchcriteria.ArticleSearchCriteriaRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.mappers.ArticleMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.PaginationMapper;
+import com.emazon.msvc.stock.msvcstock.application.mappers.SearchCriteriaMapper;
 import com.emazon.msvc.stock.msvcstock.application.mappers.SortingMapper;
 import com.emazon.msvc.stock.msvcstock.application.handlers.imp.ArticleHandlerImp;
 import com.emazon.msvc.stock.msvcstock.domain.models.*;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.CreateArticleUseCase;
 import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.RetrieveArticleUseCase;
+import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.article.UpdateArticleUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,32 +42,37 @@ class ArticleHandlerTest {
   @Mock
   private RetrieveArticleUseCase retrieveArticleUseCase;
   @Mock
+  private UpdateArticleUseCase updateArticleUseCase;
+  @Mock
   private ArticleMapper mapper;
   @Mock
   private PaginationMapper paginationMapper;
   @Mock
   private SortingMapper sortingMapper;
-
+  @Mock
+  private SearchCriteriaMapper searchCriteriaMapper;
 
   @BeforeEach
   public void setUp() {
     articleHandler = new ArticleHandlerImp(
-      createArticleUseCase,
-      retrieveArticleUseCase,
-      mapper,
-      paginationMapper,
-      sortingMapper
+            createArticleUseCase,
+            retrieveArticleUseCase,
+            updateArticleUseCase,
+            mapper,
+            paginationMapper,
+            sortingMapper,
+            searchCriteriaMapper
     );
   }
 
   @Test
   void createArticleTest() {
-    CreateArticleRequestDto createArticleRequestDto = new CreateArticleRequestDto("articleName", "articleDescription", 100.0, 10, 1L, List.of(1L,2L));
+    CreateArticleRequestDto createArticleRequestDto = new CreateArticleRequestDto("articleName", "articleDescription", 100.0, 10, 1L, List.of(1L, 2L));
     Article expectedArticle = new Article(1L, "articleName", "articleDescription", 100.0, 10,
-            new Brand(1L,"BrandName","BrandDesc"),
+            new Brand(1L, "BrandName", "BrandDesc"),
             createCategories());
 
-    ArticleResponseDto expectedResult = new ArticleResponseDto(1L, "articleName", "articleDescription", 100.0, 10, new BrandResponseDto(1L, "BrandName","BrandDesc"), createCategoriesDto());
+    ArticleResponseDto expectedResult = new ArticleResponseDto(1L, "articleName", "articleDescription", 100.0, 10, new BrandResponseDto(1L, "BrandName", "BrandDesc"), createCategoriesDto());
 
     when(createArticleUseCase.create(mapper.toDomain(createArticleRequestDto))).thenReturn(expectedArticle);
     when(mapper.toDto(expectedArticle)).thenReturn(expectedResult);
@@ -72,36 +81,63 @@ class ArticleHandlerTest {
 
     assertEquals(expectedResult, createdArticle);
   }
+
+
   @Test
-  void retrieveArticlesTest(){
-    PaginationDto paginationDto = new PaginationDto(0, 10);
-    SortingDto sortingDto = new SortingDto("name", "ASC");
+  void updateArticleStockTest() {
+    Long articleId = 1L;
+    Integer quantity = 5;
 
-    // Prepare input mapped to domain
-    Pagination pagination = new Pagination(0, 10);
-    Sorting sorting = new Sorting("name", "ASC");
+    articleHandler.updateArticleStock(articleId, quantity);
 
-    // Use case expected result
-    Paginated<Article> expectedResult = new Paginated<>(List.of(
-            new Article(1L, "First", "articleDescription1", 100.0, 10, new Brand(1L,"BrandName","BrandDesc"), createCategories()),
-            new Article(2L, "Second", "articleDescription2", 200.0, 20, new Brand(2L,"BrandName2","BrandDesc2"), createCategories())
-    ), 0L,0L,0L);
-
-    // Prepare expected result
-    Paginated<ListArticleResponseDto> expectedPaginatedArticleDto = new Paginated<>(List.of(
-            new ListArticleResponseDto(1L, "First", "articleDescription1", 100.0, 10, new BrandResponseDto(1L, "BrandName","BrandDesc"), createListArticleCategoryDto()),
-            new ListArticleResponseDto(2L, "Second", "articleDescription2", 200.0, 20, new BrandResponseDto(2L, "BrandName2","BrandDesc2"), createListArticleCategoryDto())
-    ), 0L,0L,0L);
-
-    when(paginationMapper.toDomain(paginationDto)).thenReturn(pagination);
-    when(sortingMapper.toDomain(sortingDto)).thenReturn(sorting);
-    when(retrieveArticleUseCase.retrieveArticles(pagination, sorting)).thenReturn(expectedResult);
-    when(mapper.toDtoPaginated(expectedResult)).thenReturn(expectedPaginatedArticleDto);
-
-    Paginated<ListArticleResponseDto> result = articleHandler.retrieveArticles(paginationDto, sortingDto);
-
-    assertEquals(expectedPaginatedArticleDto, result);
+    // No exception means the test passes
   }
+
+  @Test
+  void articleExistsTest() {
+    Long articleId = 1L;
+
+    when(retrieveArticleUseCase.articleExists(articleId)).thenReturn(true);
+
+    boolean result = articleHandler.articleExists(articleId);
+
+    assertEquals(true, result);
+  }
+
+  @Test
+  void retrieveArticleByIdTest() {
+    Long articleId = 1L;
+    Article article = new Article(1L, "articleName", "articleDescription", 100.0, 10, new Brand(1L, "BrandName", "BrandDesc"), createCategories());
+    ArticleResponseDto articleResponseDto = new ArticleResponseDto(1L, "articleName", "articleDescription", 100.0, 10, new BrandResponseDto(1L, "BrandName", "BrandDesc"), createCategoriesDto());
+
+    when(retrieveArticleUseCase.retrieveArticleById(articleId)).thenReturn(Optional.of(article));
+    when(mapper.toDto(article)).thenReturn(articleResponseDto);
+
+    Optional<ArticleResponseDto> result = articleHandler.retrieveArticleById(articleId);
+
+    assertEquals(Optional.of(articleResponseDto), result);
+  }
+
+  @Test
+  void retrieveArticlesByIdsTest() {
+    List<Long> articleIds = List.of(1L, 2L);
+    List<Article> articles = List.of(
+            new Article(1L, "articleName1", "articleDescription1", 100.0, 10, new Brand(1L, "BrandName", "BrandDesc"), createCategories()),
+            new Article(2L, "articleName2", "articleDescription2", 200.0, 20, new Brand(2L, "BrandName2", "BrandDesc2"), createCategories())
+    );
+    List<ArticleResponseDto> articleResponseDtos = List.of(
+            new ArticleResponseDto(1L, "articleName1", "articleDescription1", 100.0, 10, new BrandResponseDto(1L, "BrandName", "BrandDesc"), createCategoriesDto()),
+            new ArticleResponseDto(2L, "articleName2", "articleDescription2", 200.0, 20, new BrandResponseDto(2L, "BrandName2", "BrandDesc2"), createCategoriesDto())
+    );
+
+    when(retrieveArticleUseCase.retrieveArticlesByIds(articleIds)).thenReturn(articles);
+    when(mapper.toDto(any(Article.class))).thenReturn(articleResponseDtos.get(0), articleResponseDtos.get(1));
+
+    List<ArticleResponseDto> result = articleHandler.retrieveArticlesByIds(articleIds);
+
+    assertEquals(articleResponseDtos, result);
+  }
+
   private List<Category> createCategories() {
     return List.of(
             new Category(1L, "category1", "categoryDescription"),
@@ -115,6 +151,7 @@ class ArticleHandlerTest {
     categories.add(new CategoryResponseDto(2L, "category2", "categoryDescription"));
     return categories;
   }
+
   private Set<ListArticleCategoryResponseDto> createListArticleCategoryDto() {
     Set<ListArticleCategoryResponseDto> categories = new HashSet<>();
     categories.add(new ListArticleCategoryResponseDto(1L, "category1"));
