@@ -7,6 +7,7 @@ import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleRespo
 import com.emazon.msvc.stock.msvcstock.application.dtos.brand.BrandResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.category.CategoryResponseDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.searchcriteria.ArticleSearchCriteriaRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
 import com.emazon.msvc.stock.msvcstock.application.handlers.ArticleHandler;
 import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
@@ -89,7 +90,7 @@ class ArticleControllerTest {
 
     Paginated<ListArticleResponseDto> paginated = new Paginated<>(Collections.singletonList(articleDto), 1L, 1L, 1L);
 
-    Mockito.when(articleHandler.retrieveArticles(any(PaginationDto.class), any(SortingDto.class)))
+    Mockito.when(articleHandler.retrieveArticles(any(PaginationDto.class), any(SortingDto.class), any(ArticleSearchCriteriaRequestDto.class)))
             .thenReturn(paginated);
 
     mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles")

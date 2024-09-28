@@ -1,9 +1,6 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories;
 
-import com.emazon.msvc.stock.msvcstock.domain.models.Article;
-import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
-import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
-import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
+import com.emazon.msvc.stock.msvcstock.domain.models.*;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.entities.ArticleEntity;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.mappers.DboArticleMapper;
 import com.emazon.msvc.stock.msvcstock.infrastructure.adapters.out.repositories.jpa.JpaArticleRepository;
@@ -70,7 +67,7 @@ class ArticleRepositoryTest {
     when(mapper.toDomainPaginated(any())).thenReturn(new Paginated<>(List.of(article), 1L, 1L, 1L));
 
     // Act
-    Paginated<Article> result = articleRepositoryImp.retrieveArticles(pagination, sorting);
+    Paginated<Article> result = articleRepositoryImp.retrieveArticles(pagination, sorting, new ArticleSearchCriteria());
 
     // Assert
     assertEquals(1, result.getTotalPages());

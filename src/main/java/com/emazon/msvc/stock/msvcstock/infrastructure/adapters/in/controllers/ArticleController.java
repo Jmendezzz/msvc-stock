@@ -1,10 +1,7 @@
 package com.emazon.msvc.stock.msvcstock.infrastructure.adapters.in.controllers;
 
 
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ArticleResponseDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.CreateArticleRequestDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.ListArticleResponseDto;
-import com.emazon.msvc.stock.msvcstock.application.dtos.article.UpdateArticleStockRequestDto;
+import com.emazon.msvc.stock.msvcstock.application.dtos.article.*;
 import com.emazon.msvc.stock.msvcstock.application.dtos.pagination.PaginationDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.searchcriteria.ArticleSearchCriteriaRequestDto;
 import com.emazon.msvc.stock.msvcstock.application.dtos.sorting.SortingDto;
@@ -96,17 +93,17 @@ public class ArticleController {
           }
 
   )
-  @GetMapping("/search")
+  @PostMapping("/search")
   public ResponseEntity<Paginated<ListArticleResponseDto>> retrieveArticles(
           @Valid @ModelAttribute PaginationDto pagination,
           @Valid @ModelAttribute SortingDto sorting,
-          @ModelAttribute ArticleSearchCriteriaRequestDto searchCriteria
+          @Valid @RequestBody ArticleSearchCriteriaRequestDto articleSearchCriteria
           ){
     return new ResponseEntity<>(
             articleHandler.retrieveArticles(
                     pagination,
                     sorting,
-                    searchCriteria
+                    articleSearchCriteria
             ),
             HttpStatus.OK
     );
