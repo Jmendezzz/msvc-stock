@@ -9,6 +9,7 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.RetrieveBr
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.BrandRepository;
 import com.emazon.msvc.stock.msvcstock.domain.validations.SortingValidation;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RetrieveBrandUseCaseImp implements RetrieveBrandUseCase {
@@ -25,6 +26,11 @@ public class RetrieveBrandUseCaseImp implements RetrieveBrandUseCase {
     Sorting validatedSorting = brandSortingValidation.validateSorting(sort);
 
     return repository.findAll(pagination, validatedSorting);
+  }
+
+  @Override
+  public List<Brand> retrieveAllBrands() {
+    return repository.findAll();
   }
 
   @Override

@@ -13,4 +13,5 @@ public interface BrandRepository {
   Optional<Brand> findByName(String brandName);
   Paginated<Brand> findAll(Pagination pagination, Sorting sort);
   Optional<Brand> findById(Long id);
+  List<Brand> findAll();
 }

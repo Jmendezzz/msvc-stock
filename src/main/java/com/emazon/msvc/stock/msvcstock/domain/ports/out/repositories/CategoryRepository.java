@@ -5,6 +5,7 @@ import com.emazon.msvc.stock.msvcstock.domain.models.Paginated;
 import com.emazon.msvc.stock.msvcstock.domain.models.Pagination;
 import com.emazon.msvc.stock.msvcstock.domain.models.Sorting;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -13,4 +14,5 @@ public interface CategoryRepository {
   Optional<Category> findByName(String name);
   Paginated<Category> findAll(Pagination pagination, Sorting sort);
   Set<Category> findAllById(Set<Long> ids);
+  List<Category> findAll();
 }

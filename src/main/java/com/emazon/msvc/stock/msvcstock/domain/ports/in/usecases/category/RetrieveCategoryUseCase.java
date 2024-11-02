@@ -10,5 +10,6 @@ import java.util.Set;
 
 public interface RetrieveCategoryUseCase {
   Paginated<Category> retrieveCategories(Pagination pagination, Sorting sort);
+  List<Category> retrieveAllCategories();
   Set<Category> retrieveCategoriesByIds(Set<Long> ids);
 }

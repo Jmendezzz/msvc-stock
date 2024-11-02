@@ -9,6 +9,7 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.Retriev
 import com.emazon.msvc.stock.msvcstock.domain.ports.out.repositories.CategoryRepository;
 import com.emazon.msvc.stock.msvcstock.domain.validations.SortingValidation;
 
+import java.util.List;
 import java.util.Set;
 
 public class RetrieveCategoryUseCaseImp implements RetrieveCategoryUseCase {
@@ -25,6 +26,11 @@ public class RetrieveCategoryUseCaseImp implements RetrieveCategoryUseCase {
     Sorting validatedSorting = categorySortingValidation.validateSorting(sort);
 
     return categoryRepository.findAll(pagination, validatedSorting);
+  }
+
+  @Override
+  public List<Category> retrieveAllCategories() {
+    return categoryRepository.findAll();
   }
 
   @Override

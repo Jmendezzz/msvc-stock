@@ -15,6 +15,8 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.brand.RetrieveBr
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class BrandHandlerImp implements BrandHandler {
@@ -39,4 +41,11 @@ public class BrandHandlerImp implements BrandHandler {
 
     return mapper.toDtoPaginated(brands);
   }
+
+  @Override
+  public List<BrandResponseDto> retrieveAllBrands() {
+    return mapper.toDto(retrieveBrandUseCase.retrieveAllBrands());
+  }
+
+
 }

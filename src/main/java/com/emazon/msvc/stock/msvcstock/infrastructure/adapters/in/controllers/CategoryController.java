@@ -21,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/categories")
 @AllArgsConstructor
@@ -106,6 +108,11 @@ public class CategoryController {
     Paginated<CategoryResponseDto> paginatedCategories = categoryHandler.retrieveCategories(pagination, sorting);
 
     return new ResponseEntity<>(paginatedCategories, HttpStatus.OK);
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<List<CategoryResponseDto>> retrieveAllCategories() {
+    return ResponseEntity.ok(categoryHandler.retrieveAllCategories());
   }
 
 }
