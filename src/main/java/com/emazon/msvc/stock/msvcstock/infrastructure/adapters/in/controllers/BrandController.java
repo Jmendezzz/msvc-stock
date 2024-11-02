@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/brands")
@@ -103,5 +105,10 @@ public class BrandController {
           @Valid @ModelAttribute SortingDto sorting
   ) {
     return ResponseEntity.ok(brandHandler.retrieveBrands(pagination,sorting));
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<List<BrandResponseDto>> retrieveAllBrands() {
+    return ResponseEntity.ok(brandHandler.retrieveAllBrands());
   }
 }
