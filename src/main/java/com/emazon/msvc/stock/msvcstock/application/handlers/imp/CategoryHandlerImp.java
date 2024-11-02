@@ -15,6 +15,8 @@ import com.emazon.msvc.stock.msvcstock.domain.ports.in.usecases.category.Retriev
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class CategoryHandlerImp implements CategoryHandler {
@@ -40,5 +42,10 @@ public class CategoryHandlerImp implements CategoryHandler {
             );
 
     return mapper.toDtoPaginated(categories);
+  }
+
+  @Override
+  public List<CategoryResponseDto> retrieveAllCategories() {
+    return mapper.toDto(retrieveCategoriesUseCase.retrieveAllCategories());
   }
 }
