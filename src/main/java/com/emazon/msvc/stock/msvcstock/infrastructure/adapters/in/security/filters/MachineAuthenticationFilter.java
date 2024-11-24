@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -30,7 +31,7 @@ public class MachineAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     String machineKeyRequest = request.getHeader(machineHeader);
-    if(isValidateMachineKey(machineKeyRequest)){
+    if(isValidMachineKey(machineKeyRequest)){
       UserDetails machineAuthentication = createMachineUserDetails();
       Authentication authentication = new UsernamePasswordAuthenticationToken(machineAuthentication, null, machineAuthentication.getAuthorities());
 
@@ -40,7 +41,7 @@ public class MachineAuthenticationFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
-  private Boolean isValidateMachineKey(String key){
+  private Boolean isValidMachineKey(String key){
     if(key == null) return false;
     return key.equals(machineKey);
   }

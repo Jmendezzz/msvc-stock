@@ -15,6 +15,7 @@ public interface ArticleHandler {
   ArticleResponseDto createArticle(CreateArticleRequestDto articleDto);
   Paginated<ListArticleResponseDto> retrieveArticles(PaginationDto pagination, SortingDto sorting, ArticleSearchCriteriaRequestDto searchCriteria);
   void updateArticleStock(Long articleId, Integer quantity);
+  void decreaseArticleStock(Long articleId, Integer quantity);
   boolean articleExists(Long articleId);
   Optional<ArticleResponseDto> retrieveArticleById(Long articleId);
   List<ArticleResponseDto> retrieveArticlesByIds(List<Long> articleIds);
