@@ -136,6 +136,16 @@ public class ArticleController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
+  @PatchMapping("/{articleId}/decrease-stock")
+  @PreAuthorize("hasRole(@machineRole)")
+  public ResponseEntity<Void> decreaseArticleStock(
+          @PathVariable Long articleId,
+          @Valid @RequestBody DecreaseArticleStockRequestDto decreaseArticleStockRequestDto
+  ){
+    articleHandler.decreaseArticleStock(articleId, decreaseArticleStockRequestDto.quantity());
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
   @GetMapping("/{articleId}/exists")
   public ResponseEntity<Boolean> articleExists(@PathVariable Long articleId){
     return new ResponseEntity<>(

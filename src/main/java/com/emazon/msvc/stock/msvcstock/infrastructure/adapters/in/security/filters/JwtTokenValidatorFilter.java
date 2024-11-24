@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -18,13 +20,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
+  @Value("${security.machine.header}")
+  private String machineHeader;
   private final UserDetailsService userDetailsService;
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (token != null && token.startsWith(SecurityConstant.TOKEN_PREFIX)) {
+    boolean isMachineRequest = request.getHeader(machineHeader) != null;
+
+    if (token != null && token.startsWith(SecurityConstant.TOKEN_PREFIX) && !isMachineRequest) {
 
       UserDetails userDetails = userDetailsService.loadUserByUsername(token);
 
